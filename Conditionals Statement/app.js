@@ -89,3 +89,28 @@ switch (true) {
 
  
 
+// ✅ Question (in simple terms):
+// "Given a number n, print whether it is Weird or Not Weird based on the following rules:"
+
+// Rules:
+// If n is odd, print "Weird"
+
+// If n is even and in the range 6 to 20 (inclusive), print "Weird"
+
+// Otherwise (even and not in 6–20), print "Not Weird"
+
+function checkWeirdOrNot(n) {
+  if (n % 2 !== 0) {
+    console.log("Weird");
+  } else if (n >= 6 && n <= 20) {
+    console.log("Weird");
+  } else {
+    console.log("Not Weird");
+  }
+}
+
+// Test
+checkWeirdOrNot(3);   // Weird
+checkWeirdOrNot(18);  // Weird
+checkWeirdOrNot(24);  // Not Weird
+checkWeirdOrNot(4);   // Not Weird
