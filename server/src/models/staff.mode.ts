@@ -38,12 +38,11 @@ const StaffSchema = new Schema<IStaff>(
     name: {
       type: String,
       required: true,
-      // ❌ unique removed (names can repeat)
     },
     employeeId: {
       type: String,
       required: [true, "Employee ID is required"],
-      unique: true, // ✅ single index
+      unique: true,  
       uppercase: true,
     },
     department: {

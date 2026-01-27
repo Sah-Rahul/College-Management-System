@@ -17,13 +17,13 @@ const DepartmentSchema = new Schema<IDepartment>(
       type: String,
       enum: Object.values(CollegeDepartment),
       required: true,
-      unique: true, // ✅ index here
+      unique: true,  
       trim: true,
     },
     code: {
       type: String,
       required: true,
-      unique: true, // ✅ index here
+      unique: true,  
       uppercase: true,
       trim: true,
     },
