@@ -25,7 +25,7 @@ export const CreateUserSchema = z.object({
   phone: z.string().min(10).max(15).optional(),
   address: z.string().optional(),
   gender: GenderEnum.optional(),
-
+  profilePicture: z.string().optional(),
   isActive: z.boolean().optional(),
   accountStatus: AccountStatusEnum.optional(),
   blockStatus: BlockStatusSchema.optional(),
