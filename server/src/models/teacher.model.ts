@@ -1,8 +1,11 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
+import { UserRole, UserRoleEnum } from "../enums/enums";
 
 export interface ITeacher extends Document {
   teacherName: string;
   email: string;
+  password: string;
+  role: UserRole;    
   employeeId?: string;
   department: mongoose.Types.ObjectId;
   designation: string;
@@ -13,28 +16,26 @@ export interface ITeacher extends Document {
   joiningDate: Date;
 }
 
+
 const TeacherSchema = new Schema<ITeacher>(
   {
-    teacherName: {
+    teacherName: { type: String, required: true },
+    email: { type: String, unique: true },
+    password: { type: String, required: true },
+    role: {
       type: String,
-      required: true,
+      enum: UserRoleEnum.options,  
+      default: "teacher",          
     },
-    email: {
-      type: String,
-      unique: true,
-    },
+
     employeeId: {
       type: String,
       unique: true,
+      sparse: true,
+      trim: true,
     },
-    department: {
-      type: Schema.Types.ObjectId,
-      ref: "Department",
-    },
-    profilePicture:{
-      type: String,
-      default: ""
-    },
+    department: { type: Schema.Types.ObjectId, ref: "Department" },
+    profilePicture: { type: String, default: "" },
     designation: String,
     qualification: String,
     experience: Number,
@@ -43,7 +44,6 @@ const TeacherSchema = new Schema<ITeacher>(
   },
   { timestamps: true },
 );
-
 export const TeacherModel: Model<ITeacher> = mongoose.model<ITeacher>(
   "Teacher",
   TeacherSchema,

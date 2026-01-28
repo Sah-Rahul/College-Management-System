@@ -8,7 +8,7 @@ export interface IAdmin extends Document {
   name: string;
   email: string;
   password: string;
-  level: AdminLevel;
+  role: AdminLevel;
   permissions: string[];
   profilePicture?: string;
   gender?: string;
@@ -37,7 +37,7 @@ const AdminSchema = new Schema<IAdmin>(
       select: false,  
     },
 
-    level: {
+    role: {
       type: String,
       enum: Object.values(AdminLevel),
       default: AdminLevel.ADMIN,

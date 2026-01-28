@@ -5,6 +5,7 @@ export const CreateTeacherSchema = z.object({
     .string()
     .min(2, "Teacher name must be at least 2 characters")
     .max(100, "Teacher name can't exceed 100 characters"),
+    email: z.string().email().optional(),
   employeeId: z
     .string()
     .min(2, "Employee ID must be at least 2 characters")

@@ -1,30 +1,23 @@
-import jwt from "jsonwebtoken";
-import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken"; 
 import asyncHandler from "../utils/AsyncHandler";
-import { ApiError } from "../utils/ApiError";
-import { AdminModel } from "../models/admin.model";
+import { ApiError } from "../utils/ApiError"; 
+import { AuthRequest, AuthUser } from "../@types/auth.types";
 
 export const isAdmin = asyncHandler(
-  async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
+  async (req: AuthRequest, _res, next) => {
     const token = req.cookies?.adminToken;
+    if (!token) throw new ApiError(401, "Admin token missing");
 
-    if (!token) throw new ApiError(401, "Unauthorized: Admin token missing");
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET_ADMIN!
+    ) as AuthUser;
 
-    let decoded: any;
-    try {
-      decoded = jwt.verify(token, process.env.JWT_SECRET_ADMIN!);
-    } catch (error) {
-      throw new ApiError(401, "Invalid or expired admin token");
+    if (decoded.role !== "admin") {
+      throw new ApiError(403, "Admin access only");
     }
 
-    const admin = await AdminModel.findById(decoded.id);
-    if (!admin) throw new ApiError(404, "Admin not found");
-
-    if (admin.level !== "admin") {
-      throw new ApiError(403, "Forbidden: Admin access required");
-    }
-
-    req.user = admin;  
+    req.user = decoded;
     next();
   }
 );

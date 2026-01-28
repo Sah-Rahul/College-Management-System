@@ -1,11 +1,14 @@
 import z from "zod";
+ 
 
 export const UserRoleEnum = z.enum([
-  'admin',
-  'student',
-  'teacher',
-  'staff',
+  "admin",
+  "student",
+  "teacher",
+  "staff",
 ]);
+
+export type UserRole = z.infer<typeof UserRoleEnum>;
 
 export const GenderEnum = z.enum([
   'male',
