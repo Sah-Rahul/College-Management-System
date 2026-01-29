@@ -4,7 +4,6 @@ import asyncHandler from "../utils/AsyncHandler";
 import { ApiError } from "../utils/ApiError";
 import { ApiResponse } from "../utils/ApiResponse";
 import { sendToken } from "../utils/SendToken";
-import { AuthRequest } from "../middlewares/auth.middleware";
 import {
   ChangePasswordSchema,
   CreateUserSchema,
@@ -18,9 +17,9 @@ import { sendEmail } from "../EmailTemplates/sendEmail";
 import { forgotPasswordEmailTemplate } from "../EmailTemplates/forgotEmailEmailTemplate";
 import { generateWelcomeEmailTemplate } from "../EmailTemplates/welcomEmailTemplates";
 import { uploadToCloudinary } from "../config/cloudinary.config";
+import { AuthRequest } from "../@types/auth.types";
 
-export const registerUser = asyncHandler(
-  async (req: Request, res: Response) => {
+export const registerUser = asyncHandler(async (req: Request, res: Response) => {
     const parsed = CreateUserSchema.safeParse(req.body);
     if (!parsed.success) throw parsed.error;
 
@@ -105,8 +104,7 @@ export const logOutUser = asyncHandler(async (_req, res) => {
   });
 });
 
-export const myProfile = asyncHandler(
-  async (req: AuthRequest, res: Response) => {
+export const myProfile = asyncHandler(async (req: AuthRequest, res: Response) => {
     const user = await UserModel.findById(req.user?.id).select("-password");
     if (!user) throw new ApiError(404, "User not found");
 
@@ -114,8 +112,7 @@ export const myProfile = asyncHandler(
   },
 );
 
-export const updateProfile = asyncHandler(
-  async (req: AuthRequest & { file?: Express.Multer.File }, res: Response) => {
+export const updateProfile = asyncHandler(async (req: AuthRequest & { file?: Express.Multer.File }, res: Response) => {
     const parsed = UpdateUserSchema.safeParse(req.body);
     if (!parsed.success) throw parsed.error;
 
@@ -149,8 +146,7 @@ export const updateProfile = asyncHandler(
   },
 );
 
-export const changePassword = asyncHandler(
-  async (req: AuthRequest, res: Response) => {
+export const changePassword = asyncHandler(async (req: AuthRequest, res: Response) => {
     const parsed = ChangePasswordSchema.safeParse(req.body);
     if (!parsed.success) throw parsed.error;
 
@@ -171,8 +167,7 @@ export const changePassword = asyncHandler(
   },
 );
 
-export const forgotPassword = asyncHandler(
-  async (req: Request, res: Response) => {
+export const forgotPassword = asyncHandler(async (req: Request, res: Response) => {
     const parsed = ForgotPasswordSchema.safeParse(req.body);
     if (!parsed.success) throw parsed.error;
 
