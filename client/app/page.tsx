@@ -1,7 +1,7 @@
-import Home from '@/components/Home'
+import Hero from '@/components/Hero' 
 
 const page = () => {
-  return  <Home />
+  return  <Hero />
 }
 
 export default page

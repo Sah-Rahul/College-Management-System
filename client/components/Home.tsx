@@ -4,7 +4,7 @@ import girlImg from "../public/images/hero-3-img.webp";
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-[#1a7269] relative overflow-hidden">
+    <div className="min-h-screen bg-[#078872] relative overflow-hidden">
        
       <div  >
         <Image src={bgImage} alt="bg" fill className="object-cover" />
@@ -59,7 +59,7 @@ const Home = () => {
               </p>
 
           
-              <button className="bg-white cursor-pointer text-teal-800 px-8 py-4 rounded-lg font-semibold hover:bg-[#f3a226] transition mt-6">
+              <button className="bg-[#1a7368] text-white cursor-pointer px-8 py-4 rounded-lg font-semibold transition mt-6">
                 Find The Course →
               </button>
             </div>
