@@ -32,8 +32,26 @@ const ChooseYourCareer = () => {
           <Button className="text-[#0BB69B] bg-[#CDF0EA] px-5 py-2 rounded font-bold uppercase tracking-wider text-xs mb-6">
             Choose your career
           </Button>
-          <h1 className="text-5xl text-[#0E2A46] font-bold capitalize">
-            Discover Your Career Path
+          <h1 className="text-5xl text-[#0E2A46] font-bold capitalize text-center">
+            Discover Your{" "}
+            <span className="relative inline-block">
+              Career
+              <svg
+                className="absolute left-0 -bottom-2 w-full h-4"
+                viewBox="0 0 180 20"
+                fill="none"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M5 14 Q45 6, 90 10 T175 14"
+                  stroke="#0AB99D"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>{" "}
+            Path
           </h1>
         </div>
       </div>
@@ -43,11 +61,9 @@ const ChooseYourCareer = () => {
           <CardContent className="h-full p-8 flex flex-col justify-between">
             <div className="space-y-4 mt-16 z-10">
               <p className="text-sm text-white/90">Start From Today</p>
-
               <h3 className="text-2xl font-bold text-white leading-snug">
                 Join Our Training Courses <br />& Build Your Skills
               </h3>
-
               <Button className="bg-black text-white hover:bg-black/90">
                 Join Now →
               </Button>
@@ -88,7 +104,6 @@ const ChooseYourCareer = () => {
         .moving-img {
           animation: moveLeftRight 4s ease-in-out infinite;
         }
-
         @keyframes moveLeftRight {
           0% {
             transform: translateX(0);

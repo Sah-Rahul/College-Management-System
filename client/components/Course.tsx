@@ -28,6 +28,7 @@ export interface CourseI {
 }
 
 const Course = () => {
+  
   const courses: CourseI[] = [
     {
       image: DataScience,
@@ -80,11 +81,27 @@ const Course = () => {
           <Button className="mb-4 mt-10 bg-[#C4E7E1] hover:bg-[#C4E7E1] px-9 text-[#0AB99D] rounded-sm">
             Top Popular Course
           </Button>
-
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#0E2A46] font-bold capitalize">
-            Study Course student can
+          <h1 className="text-2xl  sm:text-3xl md:text-4xl lg:text-5xl text-[#0E2A46] font-bold capitalize">
+            Study Course
+            <span className="relative inline-block">
+              student
+              <svg
+                className="absolute top-8.5 left-0 w-full h-6"
+                viewBox="0 0 180 20"
+                fill="none"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M5 14 Q45 6, 90 10 T175 14"
+                  stroke="#0AB99D"
+                  strokeWidth="2.5"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+            can
           </h1>
-
           <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#0E2A46] font-bold capitalize">
             join with Us.
           </span>

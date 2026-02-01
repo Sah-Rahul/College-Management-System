@@ -10,6 +10,7 @@ import { Button } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 
 const AboutUs = () => {
+  
   return (
     <div className="h-200  flex bg-gray-500">
       <div className="bg-white   overflow-hidden relative h-full w-150">
@@ -51,7 +52,7 @@ const AboutUs = () => {
       </div>
 
       <div className="h-full relative flex items-center bg-white  px-8">
-        <div className="max-w-2xl">
+        <div className="max-w-2xl relative">
           <span className="inline-block mb-4 rounded-md bg-emerald-100 px-4 py-1 text-sm font-semibold text-emerald-600">
             OUR ABOUT US
           </span>
@@ -60,7 +61,20 @@ const AboutUs = () => {
             Learn & Grow Your{" "}
             <span className="relative inline-block">
               Skills
-              <span className="absolute left-0 -bottom-2 h-0.75 w-full bg-[#0AB99D]"></span>
+              <svg
+                className="absolute top-7 left-0 w-full h-6"
+                viewBox="0 0 180 20"
+                fill="none"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M5 14 Q45 6, 90 10 T175 14"
+                  stroke="#0AB99D"
+                  strokeWidth="2.5"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+              </svg>
             </span>
             <br />
             Anytime, Anywhere
@@ -106,7 +120,6 @@ const AboutUs = () => {
           <Image src={spin} alt="spin" className="rotate-spin" />
         </div>
       </div>
-
     </div>
   );
 };

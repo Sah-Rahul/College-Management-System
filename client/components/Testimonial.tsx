@@ -10,6 +10,7 @@ import wave from "../public/images/wave3.png";
 import spin from "../public/images/spin.png";
 
 const Testimonial = () => {
+
   const [current, setCurrent] = useState(0);
 
   const stats = [
@@ -40,14 +41,15 @@ const Testimonial = () => {
       name: "Sarah Johnson",
       role: "Web Developer",
       text: "This platform transformed my career! Learned React and Next.js and landed a job.",
-      userImg: team2, // Card wali photo
+      userImg: team2, 
     },
     {
       name: "Michael Chen",
       role: "UI/UX Designer",
       text: "Outstanding experience! The flexible classes fit perfectly with my schedule.",
-      userImg: team3, // Card wali photo
+      userImg: team3, 
     },
+    
   ];
 
   const move = (dir: number) =>
@@ -83,7 +85,25 @@ const Testimonial = () => {
               Testimonial
             </span>
             <h2 className="text-4xl mt-5 md:text-5xl font-bold text-[#0E2A46] leading-[1.2]">
-              Creating A Community Of <br /> Life Long Learners.
+              Creating A Community Of <br /> Life Long {" "}
+               <span className="relative inline-block">
+              Learners.
+              <svg
+                className="absolute top-10 left-0 w-full h-6"
+                viewBox="0 0 180 20"
+                fill="none"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M5 14 Q45 6, 90 10 T175 14"
+                  stroke="#0AB99D"
+                  strokeWidth="2.5"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+              
             </h2>
             <div className="flex gap-3 ml-20">
               <button

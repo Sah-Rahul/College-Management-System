@@ -2,14 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { Phone, MapPin, User, ShoppingCart, ChevronDown } from "lucide-react";
+import logo from "../public/images/logo.webp";
+import Image from "next/image";
+import Link from "next/link";
 
 const navLinks = [
-  { name: "Home", dropdown: true },
-  { name: "About Us" },
-  { name: "Services", dropdown: true },
-  { name: "Pages", dropdown: true },
-  { name: "Blog", dropdown: true },
-  { name: "Contact" },
+  { name: "Home" }, 
+  { name: "Courses"},
+  { name: "Blog"},
+  { name: "Compailer"},
+  { name: "Online Counselling"},
+  
 ];
 
 export default function Navbar() {
@@ -54,17 +57,18 @@ export default function Navbar() {
       >
         <div className="h-20 px-10 bg-[#1a7269]   flex items-center justify-between">
           <div className="text-white text-2xl font-bold flex items-center gap-2">
-            Educate
+            <Link href={"/"}>
+              <Image src={logo} alt="logo" />
+            </Link>
           </div>
 
           <nav className="flex gap-8 text-white font-medium">
             {navLinks.map((link, i) => (
               <div
                 key={i}
-                className="flex items-center gap-1 cursor-pointer hover:text-yellow-300 transition"
+                className="flex items-center gap-1 cursor-pointer hover:text-[#22b9a0] transition"
               >
                 {link.name}
-                {link.dropdown && <ChevronDown size={16} />}
               </div>
             ))}
           </nav>

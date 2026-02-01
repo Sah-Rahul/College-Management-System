@@ -46,18 +46,20 @@ const Instructor = () => {
           Meet Our{" "}
           <span className="relative inline-block">
             Expert
-            <svg
-              className="absolute -bottom-2 left-0 w-full h-3"
-              viewBox="0 0 100 10"
-              preserveAspectRatio="none"
-            >
-              <path
-                d="M0 8 Q 50 2 100 8"
-                stroke="#0BB69B"
-                strokeWidth="4"
+           <svg
+                className="absolute top-12 left-0 w-full h-6"
+                viewBox="0 0 180 20"
                 fill="none"
-              />
-            </svg>
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M5 14 Q45 6, 90 10 T175 14"
+                  stroke="#0AB99D"
+                  strokeWidth="2.5"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+              </svg>
           </span>{" "}
           <br /> Instructor
         </h2>

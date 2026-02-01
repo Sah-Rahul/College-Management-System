@@ -1,11 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import {
-  Facebook,
-  Instagram,
-  Twitter,
-  ChevronRight, 
-} from "lucide-react";
+import { Facebook, Instagram, Twitter, ChevronRight } from "lucide-react";
+import logo from "../public/images/logo.webp";
+import Link from "next/link";
 
 const Footer = () => {
   const services = [
@@ -39,8 +36,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           <div className="space-y-6">
             <div className="flex items-center gap-3">
-              <div className="text-3xl">📚</div>
-              <h2 className="text-2xl font-bold">Educate</h2>
+              <Link href={"/"}>
+                <Image src={logo} alt="logo" />
+              </Link>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
               Interdum velit laoreet id donec ultrices tincidunt arcu. Tincidunt
@@ -75,13 +73,13 @@ const Footer = () => {
               {services.map((service, index) => (
                 <li
                   key={index}
-                  className="flex items-center gap-2 text-gray-400 hover:text-teal-400 transition cursor-pointer group"
+                  className="flex items-center gap-2 hover:text-teal-400 transition w-fit text-gray-400 cursor-pointer group"
                 >
                   <ChevronRight
                     size={16}
                     className="group-hover:translate-x-1 transition-transform"
                   />
-                  <span className="text-sm">{service}</span>
+                  <span className="text-sm  ">{service}</span>
                 </li>
               ))}
             </ul>
@@ -93,7 +91,7 @@ const Footer = () => {
               {quickLinks.map((link, index) => (
                 <li
                   key={index}
-                  className="flex items-center gap-2 text-gray-400 hover:text-teal-400 transition cursor-pointer group"
+                  className="flex items-center gap-2 w-fit text-gray-400 hover:text-teal-400 transition cursor-pointer group"
                 >
                   <ChevronRight
                     size={16}
@@ -131,7 +129,7 @@ const Footer = () => {
       <div className="border-t border-gray-800">
         <div className="container mx-auto px-6 py-5">
           <p className="text-center text-sm text-gray-400">
-            Copyright © 2023{" "}
+            Copyright © {new Date().getFullYear()}{" "}
             <span className="text-teal-400 font-semibold">Educate</span> || All
             Rights Reserved
           </p>

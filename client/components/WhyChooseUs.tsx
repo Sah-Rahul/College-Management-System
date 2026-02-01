@@ -7,6 +7,7 @@ import Learner from "../public/images/Learners.jpg";
 import { Check } from "lucide-react";
 
 const WhyChooseUs = () => {
+  
   const features = [
     {
       title: "World Class Trainers",
@@ -65,7 +66,7 @@ const WhyChooseUs = () => {
               <span className="relative inline-block">
                 Learners
                 <svg
-                  className="absolute -bottom-1 left-0 w-full h-6"
+                  className="absolute top-7.5 left-0 w-full h-6"
                   viewBox="0 0 180 20"
                   fill="none"
                   preserveAspectRatio="none"
