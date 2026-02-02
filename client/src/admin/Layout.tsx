@@ -32,6 +32,7 @@ import {
   Settings,
   Menu,
   UserCircle,
+  MessagesSquare,
 } from "lucide-react";
 import Image from "next/image";
 import logo from "../../public/images/logo.webp";
@@ -51,16 +52,10 @@ const menuItems: MenuItem[] = [
     path: "/admin/dashboard",
     active: true,
   },
-    {
+  {
     icon: BarChart3,
     label: "Analytics",
     path: "/admin/analytics",
-    active: false,
-  },
-  {
-    icon: FolderTree,
-    label: "Categories",
-    path: "/admin/categories",
     active: false,
   },
   { icon: Users, label: "Students", path: "/admin/students", active: false },
@@ -71,25 +66,18 @@ const menuItems: MenuItem[] = [
     active: false,
   },
   { icon: Layers, label: "Courses", path: "/admin/courses", active: false },
-  
+
   {
     icon: ClipboardList,
     label: "Enrollments",
     path: "/admin/enrollments",
     active: false,
   },
-  { icon: BookOpen, label: "Lessons", path: "/admin/lessons", active: false },
-  {
-    icon: CheckSquare,
-    label: "Assignments",
-    path: "/admin/assignments",
-    active: false,
-  },
   { icon: HelpCircle, label: "Quizzes", path: "/admin/quizzes", active: false },
   {
-    icon: FileBadge,
-    label: "Certificates",
-    path: "/admin/certificates",
+    icon: MessagesSquare,
+    label: "Chat",
+    path: "/admin/chat",
     active: false,
   },
   {
@@ -104,12 +92,7 @@ const menuItems: MenuItem[] = [
     path: "/admin/announcements",
     active: false,
   },
-  {
-    icon: Star,
-    label: "Reviews / Ratings",
-    path: "/admin/reviews",
-    active: false,
-  },
+
   {
     icon: Bell,
     label: "Notifications",
@@ -127,24 +110,12 @@ const menuItems: MenuItem[] = [
   { icon: Settings, label: "Settings", path: "/admin/settings", active: false },
 ];
 
-const pageTitles: Record<string, string> = {
-  "/admin/dashboard": "Dashboard",
-  "/admin/users": "Users",
-  "/admin/orders": "Orders",
-  "/admin/products": "Products",
-  "/admin/category": "Category",
-  "/admin/calendar": "Calendar",
-  "/admin/profile": "Profile",
-  "/admin/settings": "Settings",
-};
-
-const SidebarMenu = ({ children }: { children: React.ReactNode }) => {
+const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const [collapsed, setCollapsed] = useState(false);
   const sidebarWidth = collapsed ? 80 : 260;
 
   const pathname = usePathname();
   const isActive = (path: string) => pathname === path;
-  const pageTitle = pageTitles[pathname] ?? "Admin Panel";
 
   return (
     <TooltipProvider>
@@ -236,10 +207,6 @@ const SidebarMenu = ({ children }: { children: React.ReactNode }) => {
               >
                 <Menu size={22} />
               </button>
-
-              <h1 className="text-lg font-semibold text-gray-800">
-                {pageTitle}
-              </h1>
             </div>
 
             <div className="flex items-center gap-4">
@@ -258,4 +225,4 @@ const SidebarMenu = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default SidebarMenu;
+export default AdminLayout;

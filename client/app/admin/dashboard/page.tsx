@@ -1,8 +1,7 @@
-import Dashboard from '@/src/admin/Dashboard'
-import React from 'react'
+import Dashboard from "@/src/admin/Dashboard";
 
-const AdminDashboard = () => {
-  return  <Dashboard />
-}
+const DashboardRoute = () => {
+  return <Dashboard />;
+};
 
-export default AdminDashboard
+export default DashboardRoute;
