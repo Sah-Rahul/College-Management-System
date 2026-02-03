@@ -22,11 +22,7 @@ const categories: Category[] = [
   { label: "IT And Software", course: "10 Courses", icon: codingImg },
   { label: "Sales Marketing", course: "17 Courses", icon: promotionImg },
   { label: "Art & Humanities", course: "13 Courses", icon: barsImg },
-  {
-    label: "Mobile Application",
-    course: "15 Courses",
-    icon: mobileDevelopmentImg,
-  },
+  { label: "Mobile Application", course: "15 Courses", icon: mobileDevelopmentImg, },
   { label: "Finance & Accounting", course: "25 Courses", icon: barsImg },
 ];
 

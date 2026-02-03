@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 import {
   Tooltip,
@@ -16,25 +17,18 @@ import {
   Users,
   GraduationCap,
   Layers,
-  FolderTree,
   ClipboardList,
-  BookOpen,
-  CheckSquare,
   HelpCircle,
-  FileBadge,
   CalendarCheck,
   Megaphone,
-  Star,
-  Bell,
-  ShoppingCart,
   CreditCard,
-  BarChart3,
   Settings,
   Menu,
+  Bell,
   UserCircle,
   MessagesSquare,
 } from "lucide-react";
-import Image from "next/image";
+
 import logo from "../../public/images/logo.webp";
 import userImg from "../../public/images/team1.png";
 
@@ -42,160 +36,129 @@ interface MenuItem {
   label: string;
   icon: React.ElementType;
   path: string;
-  active: boolean;
 }
 
 const menuItems: MenuItem[] = [
-  {
-    icon: LayoutDashboard,
-    label: "Dashboard",
-    path: "/admin/dashboard",
-    active: true,
-  }, 
-  { icon: Users, label: "Students", path: "/admin/students", active: false },
-  {
-    icon: GraduationCap,
-    label: "Teachers",
-    path: "/admin/teachers",
-    active: false,
-  },
-  { icon: Layers, label: "Courses", path: "/admin/courses", active: false },
-
-  {
-    icon: ClipboardList,
-    label: "Enrollments",
-    path: "/admin/enrollments",
-    active: false,
-  },
-  { icon: HelpCircle, label: "Quizzes", path: "/admin/quizzes", active: false },
-  {
-    icon: MessagesSquare,
-    label: "Chat",
-    path: "/admin/chat",
-    active: false,
-  },
-  {
-    icon: CalendarCheck,
-    label: "Attendance",
-    path: "/admin/attendance",
-    active: false,
-  },
-  {
-    icon: Megaphone,
-    label: "Announcements",
-    path: "/admin/announcements",
-    active: false,
-  }, 
-  {
-    icon: CreditCard,
-    label: "Payments",
-    path: "/admin/payments",
-    active: false,
-  },
-
-  { icon: Settings, label: "Settings", path: "/admin/settings", active: false },
+  { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
+  { icon: Users, label: "Students", path: "/admin/students" },
+  { icon: GraduationCap, label: "Teachers", path: "/admin/teachers" },
+  { icon: Layers, label: "Courses", path: "/admin/courses" },
+  { icon: ClipboardList, label: "Enrollments", path: "/admin/enrollments" },
+  { icon: HelpCircle, label: "Quizzes", path: "/admin/quizzes" },
+  { icon: MessagesSquare, label: "Chat", path: "/admin/chat" },
+  { icon: CalendarCheck, label: "Attendance", path: "/admin/attendance" },
+  { icon: Megaphone, label: "Announcements", path: "/admin/announcements" },
+  { icon: CreditCard, label: "Payments", path: "/admin/payments" },
+  { icon: Settings, label: "Settings", path: "/admin/settings" },
 ];
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
-  const [collapsed, setCollapsed] = useState(false);
-  const sidebarWidth = collapsed ? 80 : 260;
-
+  const [collapsed, setCollapsed] = useState(true);
   const pathname = usePathname();
-  const isActive = (path: string) => pathname === path;
+
+  const sidebarWidth = collapsed ? 80 : 260;
 
   return (
     <TooltipProvider>
       <div className="flex">
         <aside
+          className="fixed left-0 top-0 h-screen bg-white border-r z-50
+                     flex flex-col transition-[width] duration-300 ease-in-out"
           style={{ width: sidebarWidth }}
-          className="h-screen overflow-auto fixed left-0 top-0   transition-all duration-300   z-50"
         >
-          <div className="h-16 flex items-center justify-center text-black font-bold text-xl border-b border-white">
+          <div className="h-16 flex items-center justify-center border-b shrink-0">
             {collapsed ? (
-              <span className="text-sm">Educate</span>
+              <span className="font-bold text-sm">EDU</span>
             ) : (
               <Image
                 src={logo}
                 alt="logo"
-                className="h-12 w-auto object-contain"
+                className="h-10 w-auto object-contain"
                 priority
               />
             )}
           </div>
 
-          <div className="py-4">
-            {menuItems.map((item) => (
-              <Tooltip key={item.label} delayDuration={300}>
-                <TooltipTrigger asChild>
-                  <Link href={item.path}>
-                    <div
-                      className={`
-                        flex items-center p-3 mx-2 rounded-lg cursor-pointer 
-                        transition-all duration-300
-                        ${
-                          isActive(item.path)
-                            ? "bg-[#62c9b8] shadow-lg"
-                            : "hover:bg-[#0AB99D] hover:text-white"
-                        }
-                      `}
-                    >
-                      <button>
-                        <item.icon size={22} />
-                      </button>
-                      {!collapsed && (
-                        <span className="ml-3  whitespace-nowrap">
-                          {item.label}
-                        </span>
-                      )}
-                    </div>
-                  </Link>
-                </TooltipTrigger>
+          <div className="flex-1 overflow-y-auto overflow-x-hidden py-3">
+            {menuItems.map((item) => {
+              const active = pathname === item.path;
 
-                {collapsed && (
-                  <TooltipContent side="right">{item.label}</TooltipContent>
-                )}
-              </Tooltip>
-            ))}
+              return (
+                <Tooltip key={item.label} delayDuration={200}>
+                  <TooltipTrigger asChild>
+                    <Link href={item.path}>
+                      <div
+                        className={`mx-2 my-1 flex items-center gap-3 rounded-lg
+                        px-3 py-2 cursor-pointer transition-colors duration-200
+                        ${
+                          active
+                            ? "bg-[#62c9b8] text-black shadow"
+                            : "hover:bg-[#0AB99D] hover:text-white"
+                        }`}
+                      >
+                        <item.icon size={20} />
+                        {!collapsed && (
+                          <span className="whitespace-nowrap">
+                            {item.label}
+                          </span>
+                        )}
+                      </div>
+                    </Link>
+                  </TooltipTrigger>
+
+                  {collapsed && (
+                    <TooltipContent side="right">{item.label}</TooltipContent>
+                  )}
+                </Tooltip>
+              );
+            })}
           </div>
 
-          {collapsed ? (
-            <div className="h-15 w-15 overflow-hidden rounded-full">
-              <Image src={userImg} alt="userImg" />
-            </div>
-          ) : (
-            <div className="h-24 gap-3 bg-[#0f8571] w-full flex items-center justify-center">
-              <div className="h-17 w-17 overflow-hidden rounded-full">
-                <Image src={userImg} alt="userImg" />
+          <div className="border-t p-3 shrink-0">
+            {collapsed ? (
+              <div className="flex justify-center">
+                <Image
+                  src={userImg}
+                  alt="user"
+                  className="h-10 w-10 rounded-full"
+                />
               </div>
-              <div className=" leading-4  rounded-full">
-                <h2 className="uppercase font-semibold">Riya sah</h2>
-                <small className="text-stone-300 ">
-                  riyafamilyinfo@gmail.com
-                </small>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Image
+                  src={userImg}
+                  alt="user"
+                  className="h-12 w-12 rounded-full"
+                />
+                <div className="leading-tight">
+                  <h4 className="font-semibold text-sm">Riya Sah</h4>
+                  <p className="text-xs text-gray-500">
+                    riyafamilyinfo@gmail.com
+                  </p>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </aside>
 
         <div
-          className="flex-1 min-h-screen bg-gray-100"
+          className="flex-1 min-h-screen bg-gray-100 transition-all duration-300"
           style={{ marginLeft: sidebarWidth }}
         >
           <header
-            className="h-16 fixed top-0 right-0 bg-white shadow-sm flex items-center justify-between px-6 z-40"
+            className="h-16 fixed top-0 right-0 bg-white border-b
+                       flex items-center justify-between px-6 z-40
+                       transition-all duration-300"
             style={{ left: sidebarWidth }}
           >
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setCollapsed(!collapsed)}
-                className="p-2 cursor-pointer rounded-md  "
-                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-              >
-                <Menu size={22} />
-              </button>
-            </div>
+            <button
+              onClick={() => setCollapsed(!collapsed)}
+              className="p-2 rounded-md hover:bg-gray-100"
+            >
+              <Menu size={22} />
+            </button>
 
-            <div className="flex items-center gap-4">
+            <div className="flex  items-center gap-4">
               <Bell size={20} className="cursor-pointer" />
               <div className="flex items-center gap-2 cursor-pointer">
                 <UserCircle size={28} />
@@ -204,7 +167,11 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </header>
 
-          <main className="pt-20 p-6">{children}</main>
+          <main
+            className={`${pathname === "/admin/chat" ? "pt-16 px-0" : "pt-20 px-6"}`}
+          >
+            {children}
+          </main>
         </div>
       </div>
     </TooltipProvider>

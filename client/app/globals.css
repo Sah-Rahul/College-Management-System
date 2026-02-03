@@ -128,17 +128,14 @@
   background-color: #0ab99d;
   color: #ffffff;
 }
-
-
 /* Scrollbar Track */
 ::-webkit-scrollbar {
-  width: 12px;
-  height: 16px;
+  width: 10px;   /* vertical scrollbar */
+  height: 10px;  /* horizontal scrollbar */
 }
 
 /* Scrollbar Thumb */
 ::-webkit-scrollbar-thumb {
-  background-color: #217eca;
   background-color: #0BB69B;
   border-radius: 9999px;
   border: 2px solid white;
@@ -149,3 +146,4 @@
   cursor: pointer;
   background-color: #0BB69B;
 }
+
