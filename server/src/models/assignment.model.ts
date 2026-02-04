@@ -1,127 +1,47 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
-export enum AssignmentStatus {
-  PENDING = "pending",
-  IN_PROGRESS = "in_progress",
-  COMPLETED = "completed",
-  CANCELLED = "cancelled",
-}
+export interface IAssignment extends Document {
+  course: mongoose.Types.ObjectId;
+  teacher: mongoose.Types.ObjectId;
 
-export enum AssignmentPriority {
-  LOW = "low",
-  MEDIUM = "medium",
-  HIGH = "high",
-  URGENT = "urgent",
-}
-
-export interface ATask extends Document {
   title: string;
-  description: string;
-  assignedBy: mongoose.Types.ObjectId;   
-  assignedTo?: mongoose.Types.ObjectId;  
-  submittedBy?: mongoose.Types.ObjectId; 
-  deadLine: Date;
+  description?: string;
 
-  status: AssignmentStatus;
-  priority: AssignmentPriority;
+  dueDate?: Date;
+  totalMarks: number;
 
-  submittedAt?: Date;
-  submissionFile?: string;
-  submissionText?: string;
+  attachments: string[];
 
-  marks?: number;
-  totalMarks?: number;
-  feedback?: string;
+  isActive: boolean;
 
   createdAt: Date;
   updatedAt: Date;
 }
 
-const AssignmentSchema = new Schema<ATask>(
+const assignmentSchema = new Schema<IAssignment>(
   {
-    title: {
-      type: String,
-      required: [true, "Task title is required"],
-      trim: true,
-      maxlength: 200,
-    },
-    description: {
-      type: String,
-      required: [true, "Task description is required"],
-      maxlength: 2000,
-    },
+    course: { type: Schema.Types.ObjectId, ref: "Course", required: true },
+    teacher: { type: Schema.Types.ObjectId, ref: "User", required: true },
 
-    assignedBy: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
+    title: { type: String, required: true, trim: true, minlength: 2, maxlength: 200 },
+    description: { type: String, maxlength: 10000 },
 
-    assignedTo: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
+    dueDate: { type: Date },
+    totalMarks: { type: Number, default: 100, min: 0 },
 
-    submittedBy: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
+    attachments: { type: [String], default: [] },
 
-    deadLine: {
-      type: Date,
-      required: [true, "Due date is required"],
-    },
-
-    status: {
-      type: String,
-      enum: Object.values(AssignmentStatus),
-      default: AssignmentStatus.PENDING,
-    },
-
-    priority: {
-      type: String,
-      enum: Object.values(AssignmentPriority),
-      default: AssignmentPriority.MEDIUM,
-    },
-
-    submittedAt: {
-      type: Date,
-    },
-
-    submissionFile: {
-      type: String,
-    },
-
-    submissionText: {
-      type: String,
-      maxlength: 5000,
-    },
-
-    marks: {
-      type: Number,
-      min: 0,
-    },
-
-    totalMarks: {
-      type: Number,
-      min: 0,
-    },
-
-    feedback: {
-      type: String,
-      maxlength: 1000,
-    },
+    isActive: { type: Boolean, default: true },
   },
-  {
-    timestamps: true,
-  },
+  { timestamps: true }
 );
 
- 
-AssignmentSchema.index({ assignedTo: 1, status: 1 });
-AssignmentSchema.index({ assignedBy: 1 });
-AssignmentSchema.index({ deadline: 1 });
+assignmentSchema.index({ course: 1 });
+assignmentSchema.index({ teacher: 1 });
+assignmentSchema.index({ dueDate: 1 });
+assignmentSchema.index({ isActive: 1 });
 
-export const AssignmentModel: Model<ATask> =
-  mongoose.models.Assignment ||
-  mongoose.model<ATask>("Assignment", AssignmentSchema);
+export const Assignment: Model<IAssignment> = mongoose.model<IAssignment>(
+  "Assignment",
+  assignmentSchema
+);

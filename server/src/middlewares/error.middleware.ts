@@ -1,32 +1,24 @@
 import { Request, Response, NextFunction } from "express";
-import { ZodError } from "zod";
+import { ApiError } from "../utils/ApiError";
 
-const errorMiddleware = (
+export const errorHandler = (
   err: any,
   _req: Request,
   res: Response,
   _next: NextFunction
-): Response => {
- 
-  if (err instanceof ZodError) {
-    return res.status(400).json({
+) => {
+  if (err instanceof ApiError) {
+    return res.status(err.statusCode).json({
       success: false,
-      message: "Validation error",
-      errors: err.issues.map((e) => ({
-        field: e.path.join("."),
-        message: e.message,
-      })),
+      message: err.message,
+      errors: err.errors || [],
     });
   }
 
- 
-  const statusCode = err.statusCode || 500;
+  console.error("UNHANDLED ERROR:", err);
 
-  return res.status(statusCode).json({
+  return res.status(500).json({
     success: false,
-    message: err.message || "Internal Server Error",
-    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+    message: "Internal server error",
   });
 };
-
-export default errorMiddleware;

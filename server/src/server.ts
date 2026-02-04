@@ -6,7 +6,7 @@ dotenv.config();
 
 connectDB();
 
-import "./models/index.model";
+ 
 
 const PORT = process.env.PORT || 5000;
 

@@ -1,15 +1,29 @@
 import { Router } from "express";
-import authRouter from "./user.routes";
-import adminRoutes from "./admin.routes";
-import teacherRoutes from "./teacher.routes";
-import assignmentRoutes from "./assignment.routes";
+import authRoutes from "./auth.routes";
+import courseRoutes from "./course.routes";
+import enrollmentRoutes from "./enrollment.routes";
+import assignmentRoutes from "./assignmentSubmission.routes";
+import assignmentSubmissionRoutes from "./assignmentSubmission.routes";
+import attendanceRoutes from "./attendance.routes";
+import noticeRoutes from "./notice.routes";
+import quizRoutes from "./quiz.routes";
+import questionRoutes from "./question.routes";
+import quizSubmissionRoutes from "./quizSubmission.routes";
 
-const appRoute = Router()
+const appRoutes = Router();
 
-appRoute.use("/api/v1/auth",authRouter)
-appRoute.use("/api/v1/admin",adminRoutes)
-appRoute.use("/api/v1/teacher",teacherRoutes)
-appRoute.use("/api/v1/assignment",assignmentRoutes)
+appRoutes.use("/auth", authRoutes);
+appRoutes.use("/courses", courseRoutes);
+appRoutes.use("/enrollments", enrollmentRoutes);
 
+appRoutes.use("/assignments", assignmentRoutes);
+appRoutes.use("/assignment-submissions", assignmentSubmissionRoutes);
 
-export default appRoute
+appRoutes.use("/attendance", attendanceRoutes);
+appRoutes.use("/notices", noticeRoutes);
+
+appRoutes.use("/quizzes", quizRoutes);
+appRoutes.use("/questions", questionRoutes);
+appRoutes.use("/quiz-submissions", quizSubmissionRoutes);
+
+export default appRoutes;

@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import errorMiddleware from "./middlewares/error.middleware";
-import appRoute from "./routes";
+import appRoutes from "./routes";
+import { errorHandler } from "./middlewares/error.middleware";
 
 const app = express();
 
@@ -11,20 +11,17 @@ app.use(
   cors({
     origin: process.env.CLIENT,
     credentials: true,
-  })
+  }),
 );
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-// Test Route
-app.get("/", (req, res) => {
-  res.json({ message: "Server is running 🚀" });
-});
+app.get("/", (_req, res) => res.json({ ok: true }));
 
-app.use(appRoute)
+app.use("/api/v1", appRoutes);
 
-app.use(errorMiddleware)
+app.use(errorHandler);
 
 export default app;

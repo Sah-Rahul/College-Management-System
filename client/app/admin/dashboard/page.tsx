@@ -1,4 +1,6 @@
 import Dashboard from "@/src/admin/Dashboard";
+// import Dashboard from "../../../../src/admin/Dashboard";
+
 
 const DashboardRoute = () => {
   return <Dashboard />;

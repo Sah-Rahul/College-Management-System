@@ -1,7 +1,7 @@
 import { Request } from "express";
+import { UserRole } from "./enums";
 
-export type UserRole = "admin" | "teacher" | "staff" | "student";
-
+ 
 export interface AuthUser {
   id: string;
   role: UserRole;
