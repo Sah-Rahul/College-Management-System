@@ -44,7 +44,8 @@ export default function Navbar() {
 
           <div className="flex items-center gap-2 cursor-pointer">
             <User size={16} />
-            <span>Login / Register</span>
+            <Link href={"/auth/login"}>Login</Link>
+            <Link href={"/auth/register"}>Register</Link> 
           </div>
         </div>
       </div>

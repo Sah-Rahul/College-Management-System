@@ -11,8 +11,15 @@ import {
   Eye,
   EyeOff,
 } from "lucide-react";
+import Link from "next/link";
+import useSWRMutation from "swr/mutation";
+import { useRouter } from "next/navigation";
+import { loginApi } from "@/constant/auth.api";
+import { toast } from "sonner";
 
 const Login = () => {
+  const router = useRouter();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -28,11 +35,38 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const { trigger, isMutating, error } = useSWRMutation(
+    "/auth/login",
+    loginApi,
+  );
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Register Data:", formData);
+
+    try {
+      const res = await trigger({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      toast.success(res.message);
+
+      const role = res?.user?.role;
+
+      if (role === "ADMIN") {
+        router.replace("/admin/dashboard");
+      } else if (role === "STUDENT") {
+        router.replace("/student/dashboard");
+      } else if (role === "INSTRUCTOR") {
+        router.replace("/instructor/dashboard");
+      } else {
+        router.replace("/");
+      }
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || "Login failed");
+    }
   };
-http://localhost:3000/auth/register
+
   return (
     <div className="flex min-h-screen w-full font-sans">
       <div className="hidden lg:flex w-1/2 bg-[#0F172A] items-center justify-center p-12 relative overflow-hidden">
@@ -52,17 +86,17 @@ http://localhost:3000/auth/register
           </div>
 
           <h1 className="text-5xl font-bold text-white mb-6">
-            Start your journey with{" "}
-            <span className="text-[#0ab89c]">smart learning.</span>
+            Unlock your potential with{" "}
+            <span className="text-[#0ab89c]">innovative learning.</span>
           </h1>
 
           <div className="space-y-6 mt-10">
             <div className="flex gap-4">
               <BookOpen className="h-5 w-5 text-[#0ab89c]" />
               <div>
-                <p className="text-white font-semibold">Learn from Experts</p>
+                <p className="text-white font-semibold">Hands-on Courses</p>
                 <p className="text-sm text-zinc-400">
-                  Curated courses with real-world projects
+                  Learn practical skills through real projects
                 </p>
               </div>
             </div>
@@ -70,9 +104,9 @@ http://localhost:3000/auth/register
             <div className="flex gap-4">
               <LayoutDashboard className="h-5 w-5 text-[#0ab89c]" />
               <div>
-                <p className="text-white font-semibold">Build Your Profile</p>
+                <p className="text-white font-semibold">Grow Your Career</p>
                 <p className="text-sm text-zinc-400">
-                  Track growth & earn certificates
+                  Build a portfolio, earn certificates, and boost your resume
                 </p>
               </div>
             </div>
@@ -83,11 +117,9 @@ http://localhost:3000/auth/register
       <div className="w-full lg:w-1/2 flex items-center justify-center bg-white p-8">
         <form onSubmit={handleSubmit} className="w-full max-w-105 space-y-8">
           <div className="space-y-3">
-            <h2 className="text-3xl font-bold text-zinc-900">
-              Student login
-            </h2>
+            <h2 className="text-3xl font-bold text-zinc-900">Student login</h2>
             <p className="text-zinc-500">
-              Create your account to start learning today.
+              Login to your account to start learning today.
             </p>
           </div>
 
@@ -124,16 +156,30 @@ http://localhost:3000/auth/register
               </button>
             </div>
 
-            <Button type="submit" className="w-full h-12 cursor-pointer">
-              Create Account
+            {/* ✅ error show */}
+            {error && (
+              <p className="text-sm text-red-600">
+                {error?.response?.data?.message || "Login failed"}
+              </p>
+            )}
+
+            <Button
+              type="submit"
+              className="w-full h-12 cursor-pointer"
+              disabled={isMutating}
+            >
+              {isMutating ? "Logging in..." : "Login"}
             </Button>
           </div>
 
           <p className="text-center text-sm text-zinc-600">
-            Already have an account?{" "}
-            <span className="font-bold text-[#0ab89c] cursor-pointer">
-              Login
-            </span>
+            I don't have an account?{" "}
+            <Link
+              href={"/auth/register"}
+              className="font-bold text-[#0ab89c] cursor-pointer"
+            >
+              Sign Up
+            </Link>
           </p>
         </form>
       </div>

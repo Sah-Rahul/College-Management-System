@@ -27,6 +27,7 @@ import {
   Bell,
   UserCircle,
   MessagesSquare,
+  Folder,
 } from "lucide-react";
 
 import logo from "../../public/images/logo.webp";
@@ -43,6 +44,7 @@ const menuItems: MenuItem[] = [
   { icon: Users, label: "Students", path: "/admin/students" },
   { icon: GraduationCap, label: "Teachers", path: "/admin/teachers" },
   { icon: Layers, label: "Courses", path: "/admin/courses" },
+  { icon: Folder, label: "Category", path: "/admin/category" },
   { icon: ClipboardList, label: "Enrollments", path: "/admin/enrollments" },
   { icon: HelpCircle, label: "Quizzes", path: "/admin/quizzes" },
   { icon: MessagesSquare, label: "Chat", path: "/admin/chat" },
