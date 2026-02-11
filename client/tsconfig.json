@@ -12,8 +12,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "incremental": true,
-    "baseUrl": ".",        
+    "incremental": true,  
+    // "baseUrl": ".",      
     "paths": {
       "@/*": ["./*"]
     },

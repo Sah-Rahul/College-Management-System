@@ -1,23 +1,64 @@
 import { Router } from "express";
-import { isAuthenticated, authorize } from "../middlewares/auth.middleware";
+
+import { UserRole } from "../@types/enums";
+import { isAuthenticated } from "../middleware/student.middleware";
+import { allowRoles } from "../middleware/allowRoles.middleware";
+import { upload } from "../middleware/mullter.middleware";
+import { validate } from "../validators/student.validator";
+import { 
+  CreateCourseSchema,
+  UpdateCourseSchema,
+} from "../dto/course.dto";
 import {
   createCourse,
   deleteCourse,
-  getCourseById,
-  listCourses,
+  getAllCourses,
+  publishCourse,
+  unpublishCourse,
   updateCourse,
 } from "../controller/course.controller";
-import { UserRole } from "../@types/enums";
 
 const courseRoutes = Router();
 
-courseRoutes.get("/", isAuthenticated, listCourses);
-courseRoutes.get("/:id", isAuthenticated, getCourseById);
+courseRoutes.post(
+  "/create",
+  isAuthenticated,
+  allowRoles(UserRole.INSTRUCTOR, UserRole.INSTITUTE),
+  upload.single("thumbnail"),
+  validate(CreateCourseSchema),
+  createCourse,
+);
 
-courseRoutes.post("/", isAuthenticated, authorize(UserRole.MANAGEMENT), createCourse);
+courseRoutes.get("/",isAuthenticated, allowRoles(UserRole.INSTRUCTOR, UserRole.INSTITUTE),getAllCourses);
 
-courseRoutes.patch("/:id", isAuthenticated, authorize(UserRole.MANAGEMENT), updateCourse);
+courseRoutes.put(
+  "/:id",
+  isAuthenticated,
+  allowRoles(UserRole.INSTRUCTOR, UserRole.INSTITUTE),
+  upload.single("thumbnail"),
+  validate(UpdateCourseSchema),
+  updateCourse,
+);
 
-courseRoutes.delete("/:id", isAuthenticated, authorize(UserRole.MANAGEMENT), deleteCourse);
+courseRoutes.delete(
+  "/:id",
+  isAuthenticated,
+  allowRoles(UserRole.INSTRUCTOR, UserRole.INSTITUTE),
+  deleteCourse,
+);
 
- export default courseRoutes
+courseRoutes.patch(
+  "/:id/publish",
+  isAuthenticated,
+  allowRoles(UserRole.INSTRUCTOR, UserRole.INSTITUTE),
+  publishCourse,
+);
+
+courseRoutes.patch(
+  "/:id/unpublish",
+  isAuthenticated,
+  allowRoles(UserRole.INSTRUCTOR, UserRole.INSTITUTE),
+  unpublishCourse,
+);
+
+export default courseRoutes;

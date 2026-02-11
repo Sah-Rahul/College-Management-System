@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import appRoutes from "./routes";
-import { errorHandler } from "./middlewares/error.middleware";
+import { errorMiddleware } from "./middleware/error.middleware";
 
 const app = express();
 
@@ -22,6 +22,6 @@ app.get("/", (_req, res) => res.json({ ok: true }));
 
 app.use("/api/v1", appRoutes);
 
-app.use(errorHandler);
+app.use(errorMiddleware);
 
 export default app;
