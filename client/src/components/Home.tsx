@@ -5,8 +5,14 @@ import girlImg from "../../public/images/hero-3.webp";
 const Home = () => {
   return (
     <div className="min-h-screen bg-[#078872] relative overflow-hidden">
-      <div>
-        <Image src={bgImage} alt="bg" fill className="object-cover" />
+      <div className="relative">
+        <Image
+          src={bgImage}
+          alt="Background"
+          fill
+          priority
+          className="object-cover"
+        />
       </div>
 
       <div className="relative z-10 h-screen flex items-center">

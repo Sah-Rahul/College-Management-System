@@ -1,16 +1,6 @@
 import { z } from "zod";
 import { CourseLevel, CourseStatus } from "../@types/enums";
 
-const num = z.preprocess(
-  (v) => (v === "" || v === undefined ? undefined : Number(v)),
-  z.number(),
-);
-const bool = z.preprocess((v) => {
-  if (v === "true") return true;
-  if (v === "false") return false;
-  return v;
-}, z.boolean());
-
 export const CreateCourseSchema = z.object({
   courseTitle: z
     .string()
@@ -22,13 +12,17 @@ export const CreateCourseSchema = z.object({
     .min(10, "Description must be at least 10 characters")
     .max(5000, "Description must be less than 5000 characters"),
 
+  LearningOutcomes: z
+    .string()
+    .min(10, "Description must be at least 10 characters")
+    .max(5000, "Description must be less than 5000 characters"),
+
   category: z.string().min(1, "Category is required"),
 
-  price: z.coerce.number().min(0).optional(),
-  discountPrice: z.coerce.number().min(0).optional(),
+  price: z.coerce.number().min(0),
+  discountPercentage: z.coerce.number().min(0).optional(), 
 
   level: z.nativeEnum(CourseLevel).optional(),
-
   language: z.string().min(2).max(30).optional(),
 
   tags: z
@@ -86,5 +80,3 @@ export const UpdateCourseSchema = z.object({
   status: z.nativeEnum(CourseStatus).optional(),
   isActive: z.boolean().optional(),
 });
-
- 

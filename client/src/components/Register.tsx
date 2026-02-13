@@ -14,7 +14,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useSWRMutation from "swr/mutation";
-import { axiosInstance } from "@/constant/axiosInstance";
+import { axiosInstance } from "@/services/axiosInstance";
 
 type RegisterPayload = {
   name: string;

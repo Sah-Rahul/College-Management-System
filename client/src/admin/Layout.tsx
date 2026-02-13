@@ -170,7 +170,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
           </header>
 
           <main
-            className={`${pathname === "/admin/chat" ? "pt-16 px-0" : "pt-20 px-6"}`}
+            className={`${pathname === "/admin/chat" ? "pt-16 px-0" : "pt-16"}`}
           >
             {children}
           </main>

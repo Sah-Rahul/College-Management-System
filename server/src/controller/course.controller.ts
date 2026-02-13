@@ -17,9 +17,10 @@ export const createCourse = asyncHandler(
     const {
       courseTitle,
       description,
+      LearningOutcomes,
       category,
       price,
-      discountPrice,
+      discountPercentage,
       level,
       language,
       tags,
@@ -37,35 +38,52 @@ export const createCourse = asyncHandler(
     }
 
     let thumbnailUrl = "";
-
-    if (req.file && req.file.buffer) {
+    if (req.file?.buffer) {
       const cloudResult = await uploadToCloudinary(req.file.buffer, "courses");
       thumbnailUrl = cloudResult.secure_url;
     }
 
-    if (discountPrice && price && discountPrice > price) {
-      throw new ApiError(400, "Discount price cannot be greater than price");
+    const originalPrice = Number(price) || 0;
+    if (originalPrice < 0) {
+      throw new ApiError(400, "Price cannot be negative");
     }
 
-    let formattedTags: string[] = [];
+    let formattedDiscountPercentage = Number(discountPercentage || 0);
 
-    if (tags) {
-      formattedTags = Array.isArray(tags) ? tags : [tags];
+    if (
+      isNaN(formattedDiscountPercentage) ||
+      formattedDiscountPercentage < 0 ||
+      formattedDiscountPercentage > 100
+    ) {
+      throw new ApiError(400, "Discount percentage must be between 0 and 100");
     }
+
+    const discountAmount = (originalPrice * formattedDiscountPercentage) / 100;
+
+    const finalPrice = Math.max(0, originalPrice - discountAmount);
+
+    const formattedTags: string[] = tags
+      ? Array.isArray(tags)
+        ? tags.map((t: any) => String(t).trim()).filter(Boolean)
+        : [String(tags).trim()].filter(Boolean)
+      : [];
 
     const course = await CourseModel.create({
       courseTitle,
       description,
+      LearningOutcomes,
       category,
 
       createdBy: req.user._id,
       createdByRole: req.user.role,
 
-      price: price ?? 0,
-      discountPrice: discountPrice ?? 0,
+      price: originalPrice,
+      discountPercentage: formattedDiscountPercentage,
+      finalPrice,
 
       level,
-      language: language ?? "Hindi",
+      language: language ?? "Nepali",
+
       tags: formattedTags,
 
       startDate: startDate ? new Date(startDate) : undefined,
@@ -125,7 +143,7 @@ export const updateCourse = asyncHandler(
     if (description) course.description = description;
 
     if (price !== undefined) course.price = price;
-    if (discountPrice !== undefined) course.discountPrice = discountPrice;
+    if (discountPrice !== undefined) course.discountPercentage = discountPrice;
 
     if (level) course.level = level;
     if (language) course.language = language;
@@ -139,14 +157,12 @@ export const updateCourse = asyncHandler(
     if (isActive !== undefined) course.isActive = isActive;
 
     if (req.file) {
-      const buffer = await fs.readFile(req.file.path);
+      const buffer = req.file.buffer;
       const cloudResult = await uploadToCloudinary(buffer, "courses");
-      await fs.unlink(req.file.path);
-
       course.thumbnail = cloudResult.secure_url;
     }
 
-    if (course.discountPrice && course.discountPrice > course.price) {
+    if (course.discountPercentage && course.discountPercentage > course.price) {
       throw new ApiError(400, "Discount price cannot be greater than price");
     }
 

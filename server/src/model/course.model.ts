@@ -7,6 +7,7 @@ export interface ICourse {
   slug: string;
 
   description: string;
+  LearningOutcomes: string;
   thumbnail?: string;
 
   category: Types.ObjectId;
@@ -15,7 +16,8 @@ export interface ICourse {
   createdByRole: UserRole;
 
   price: number;
-  discountPrice?: number;
+  discountPercentage?: number;
+  finalPrice: number;
 
   level: CourseLevel;
   language: string;
@@ -59,7 +61,10 @@ const courseSchema = new Schema<ICourse>(
       trim: true,
       maxlength: 5000,
     },
-
+    LearningOutcomes: {
+      type: String,
+      required: true,
+    },
     thumbnail: {
       type: String,
       default: "",
@@ -87,13 +92,16 @@ const courseSchema = new Schema<ICourse>(
       default: 0,
       min: 0,
     },
-
-    discountPrice: {
+    discountPercentage: {
       type: Number,
       default: 0,
       min: 0,
     },
-
+    finalPrice: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
     level: {
       type: String,
       enum: Object.values(CourseLevel),
