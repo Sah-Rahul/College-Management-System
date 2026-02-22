@@ -41,7 +41,7 @@ const GoTop = () => {
           cx="24"
           cy="24"
           r="22"
-          stroke="#0BB69B"
+          stroke="#0ab89c"
           strokeWidth="3"
           fill="none"
           strokeDasharray="138.23"

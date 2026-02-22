@@ -1,0 +1,30 @@
+export const DISCUSSION_CONSTANTS = {
+  MIN_TITLE_LENGTH: 10,
+  MAX_TITLE_LENGTH: 200,
+  MIN_CONTENT_LENGTH: 20,
+  MAX_CONTENT_LENGTH: 5000,
+  MIN_REPLY_LENGTH: 10,
+  MAX_REPLY_LENGTH: 2000,
+  MAX_TAGS: 5,
+  MAX_REPLIES: 500,
+  AUTO_CLOSE_DAYS: 30,  
+  FEATURED_THRESHOLD: 10,  
+};
+
+export const DISCUSSION_MESSAGES = {
+  CREATED: "Discussion created successfully",
+  UPDATED: "Discussion updated successfully",
+  DELETED: "Discussion deleted successfully",
+  REPLY_ADDED: "Reply added successfully",
+  REPLY_UPDATED: "Reply updated successfully",
+  REPLY_DELETED: "Reply deleted successfully",
+  UPVOTED: "Upvoted successfully",
+  DOWNVOTED: "Downvoted successfully",
+  ANSWER_ACCEPTED: "Answer accepted",
+  PINNED: "Discussion pinned",
+  UNPINNED: "Discussion unpinned",
+  CLOSED: "Discussion closed",
+  REOPENED: "Discussion reopened",
+  NOT_FOUND: "Discussion not found",
+  NOT_AUTHORIZED: "You are not authorized to perform this action",
+};

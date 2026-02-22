@@ -14,7 +14,6 @@ import {
 import Link from "next/link";
 import useSWRMutation from "swr/mutation";
 import { useRouter } from "next/navigation";
-import { loginApi } from "@/constant/auth.api";
 import { toast } from "sonner";
 
 const Login = () => {
@@ -35,36 +34,10 @@ const Login = () => {
     }));
   };
 
-  const { trigger, isMutating, error } = useSWRMutation(
-    "/auth/login",
-    loginApi,
-  );
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+  console.log("============>", formData)
 
-    try {
-      const res = await trigger({
-        email: formData.email,
-        password: formData.password,
-      });
-
-      toast.success(res.message);
-
-      const role = res?.user?.role;
-
-      if (role === "ADMIN") {
-        router.replace("/admin/dashboard");
-      } else if (role === "STUDENT") {
-        router.replace("/student/dashboard");
-      } else if (role === "INSTRUCTOR") {
-        router.replace("/instructor/dashboard");
-      } else {
-        router.replace("/");
-      }
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Login failed");
-    }
   };
 
   return (
@@ -150,25 +123,14 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-9 -translate-y-1/2 text-zinc-500 cursor-pointer"
+                className="absolute right-3 top-10 -translate-y-1/2 text-zinc-500 cursor-pointer"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
 
-            {/* ✅ error show */}
-            {error && (
-              <p className="text-sm text-red-600">
-                {error?.response?.data?.message || "Login failed"}
-              </p>
-            )}
-
-            <Button
-              type="submit"
-              className="w-full h-12 cursor-pointer"
-              disabled={isMutating}
-            >
-              {isMutating ? "Logging in..." : "Login"}
+            <Button type="submit" className="w-full h-12 cursor-pointer">
+              Login
             </Button>
           </div>
 
