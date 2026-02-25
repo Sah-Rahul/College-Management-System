@@ -12,7 +12,7 @@ export interface CreateInstituteRequestDTO {
     pincode: string;
   };
   registrationNumber?: string;
-  documents: Array<{
+  documents?: Array<{
     type: string;
     url: string;
   }>;
@@ -44,13 +44,4 @@ export interface ReviewInstituteRequestDTO {
   status: "approved" | "rejected";
   rejectionReason?: string;
   notes?: string;
-}
-
-export interface GetInstituteRequestsQueryDTO {
-  status?: string;
-  userId?: string;
-  page?: number;
-  limit?: number;
-  sortBy?: string;
-  sortOrder?: "asc" | "desc";
 }

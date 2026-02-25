@@ -1,9 +1,16 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Types } from "mongoose";
 import { InstituteType } from "../institutes/institute.enums";
 import { InstituteRequestStatus } from "./instituteRequest.enums";
 
+export interface IInstituteDocument {
+  type: string;
+  url: string;
+  publicId: string;
+  uploadedAt: Date;
+}
+
 export interface IInstituteRequest extends Document {
-  userId: mongoose.Types.ObjectId;
+  userId: Types.ObjectId;
   instituteName: string;
   instituteType: InstituteType;
   description: string;
@@ -17,13 +24,9 @@ export interface IInstituteRequest extends Document {
     pincode: string;
   };
   registrationNumber?: string;
-  documents: Array<{
-    type: string;
-    url: string;
-    uploadedAt: Date;
-  }>;
+  documents: IInstituteDocument[];
   status: InstituteRequestStatus;
-  reviewedBy?: mongoose.Types.ObjectId;
+  reviewedBy?: Types.ObjectId;
   reviewedAt?: Date;
   rejectionReason?: string;
   notes?: string;
@@ -31,18 +34,47 @@ export interface IInstituteRequest extends Document {
   updatedAt: Date;
 }
 
+const instituteDocumentSchema = new Schema<IInstituteDocument>(
+  {
+    type: { type: String, required: true },
+    url: { type: String, required: true },
+    publicId: { type: String, required: true },
+    uploadedAt: { type: Date, required: true },
+  },
+  { _id: false },
+);
+
 const instituteRequestSchema = new Schema<IInstituteRequest>(
   {
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    instituteName: { type: String, required: true, trim: true },
+
+    instituteName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
     instituteType: {
       type: String,
       enum: Object.values(InstituteType),
       required: true,
     },
-    description: { type: String, required: true },
-    email: { type: String, required: true },
-    phone: { type: String, required: true },
+
+    description: {
+      type: String,
+      required: true,
+    },
+
+    email: {
+      type: String,
+      required: true,
+    },
+
+    phone: {
+      type: String,
+      required: true,
+    },
+
     address: {
       street: { type: String, required: true },
       city: { type: String, required: true },
@@ -50,25 +82,36 @@ const instituteRequestSchema = new Schema<IInstituteRequest>(
       country: { type: String, required: true },
       pincode: { type: String, required: true },
     },
-    registrationNumber: String,
-    documents: [
-      {
-        type: { type: String, required: true },
-        url: { type: String, required: true },
-        uploadedAt: { type: Date, default: Date.now },
-      },
-    ],
+
+    registrationNumber: {
+      type: String,
+    },
+
+    documents: {
+      type: [instituteDocumentSchema],
+      default: [],
+    },
+
     status: {
       type: String,
       enum: Object.values(InstituteRequestStatus),
       default: InstituteRequestStatus.PENDING,
     },
-    reviewedBy: { type: Schema.Types.ObjectId, ref: "User" },
+
+    reviewedBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+
     reviewedAt: Date,
+
     rejectionReason: String,
+
     notes: String,
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
 instituteRequestSchema.index({ userId: 1 });
@@ -79,4 +122,5 @@ const InstituteRequestModel = mongoose.model<IInstituteRequest>(
   "InstituteRequest",
   instituteRequestSchema,
 );
+
 export default InstituteRequestModel;

@@ -14,13 +14,11 @@ export const REVIEW_CONSTANTS = {
 export const REVIEW_MESSAGES = {
   CREATED: "Review submitted successfully",
   UPDATED: "Review updated successfully",
-  DELETED: "Review deleted successfully",
-  APPROVED: "Review approved",
-  REJECTED: "Review rejected",
+  DELETED: "Review deleted successfully", 
+  UNAUTHORIZED: "Unauthorized",
+  USER: "User not found",
   NOT_FOUND: "Review not found",
   ALREADY_REVIEWED: "You have already reviewed this",
-  NOT_ENROLLED: "You must be enrolled to review this course",
-  MARKED_HELPFUL: "Marked as helpful",
-  MARKED_NOT_HELPFUL: "Marked as not helpful",
+  NOT_ENROLLED: "You must be enrolled to review this course", 
   REPORTED: "Review reported successfully",
 };

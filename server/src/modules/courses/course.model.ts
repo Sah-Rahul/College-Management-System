@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { CourseLanguage, CourseLevel, CourseStatus } from "./course.enums";
- 
+import slugify from "slugify";
+
 export interface ICourse extends Document {
   title: string;
   slug: string;
@@ -127,6 +128,17 @@ const courseSchema = new Schema<ICourse>(
   },
   { timestamps: true },
 );
+
+courseSchema.pre("validate", function (next) {
+  if (this.isModified("title")) {
+    this.slug = this.title
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-");
+  }
+});
 
 courseSchema.index({ slug: 1 });
 courseSchema.index({ instituteId: 1, status: 1 });

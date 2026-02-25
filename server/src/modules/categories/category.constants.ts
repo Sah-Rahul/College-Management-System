@@ -6,12 +6,18 @@ export const CATEGORY_CONSTANTS = {
   DEFAULT_ICON: "default-category-icon.svg",
 };
 
+ 
 export const CATEGORY_MESSAGES = {
   CREATED: "Category created successfully",
   UPDATED: "Category updated successfully",
   DELETED: "Category deleted successfully",
+  FETCHED: "Category fetched successfully",
+  GETCATEGORYBYID: "Category fetched by ID",
+  GETCATEGORYBYSLUG: "Category fetched by slug",
   NOT_FOUND: "Category not found",
   ALREADY_EXISTS: "Category with this name already exists",
-  HAS_COURSES: "Cannot delete category with active courses",
-  MAX_LEVEL_REACHED: "Maximum nesting level reached",
+  UNAUTHORIZED: "Unauthorized",
+  FORBIDDEN: "You cannot perform this action",
+  ONLY_ADMIN_CREATE: "Only admin can create categories",
+  ONLY_ADMIN_UPDATE: "Only admin can update categories",
 };

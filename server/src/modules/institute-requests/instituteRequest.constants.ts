@@ -10,7 +10,13 @@ export const INSTITUTE_REQUEST_MESSAGES = {
   APPROVED: "Institute request approved",
   REJECTED: "Institute request rejected",
   CANCELLED: "Institute request cancelled",
+  UNAUTHORIZED: "Unauthorized",
   NOT_FOUND: "Institute request not found",
   ALREADY_PROCESSED: "This request has already been processed",
   INSUFFICIENT_DOCUMENTS: "Please upload all required documents",
+  ALLINSSTITUTEREQUESTS: "All InstituteRequests fetched successfully",
+  FETCHED: "Institute request fetched successfully",
+  UPDATED: "Institute request updated successfully",
+  DELETED: "Institute request deleted successfully",
+  REVIEWED: "Institute request reviewed successfully",
 };

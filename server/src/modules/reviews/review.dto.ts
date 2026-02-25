@@ -1,12 +1,10 @@
+import { ReviewType } from "./review.enums";
+
 export interface CreateReviewDTO {
-  type: "course" | "institute";
+  type: ReviewType.COURSE | ReviewType.INSTITUTE; 
   courseId?: string;
-  instituteId?: string;
-  rating: number;
-  title?: string;
-  comment: string;
-  pros?: string[];
-  cons?: string[];
+  instituteId?: string; 
+  comment: string; 
 }
 
 export interface UpdateReviewDTO {
