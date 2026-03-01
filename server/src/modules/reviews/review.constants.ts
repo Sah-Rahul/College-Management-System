@@ -14,11 +14,14 @@ export const REVIEW_CONSTANTS = {
 export const REVIEW_MESSAGES = {
   CREATED: "Review submitted successfully",
   UPDATED: "Review updated successfully",
-  DELETED: "Review deleted successfully", 
+  DELETED: "Review deleted successfully",
+  FETCHED: "Review fetched successfully",
   UNAUTHORIZED: "Unauthorized",
   USER: "User not found",
   NOT_FOUND: "Review not found",
   ALREADY_REVIEWED: "You have already reviewed this",
   NOT_ENROLLED: "You must be enrolled to review this course", 
   REPORTED: "Review reported successfully",
+  NOT_AUTHORIZED: "Not authorized to delete this review",
+  NOT_DELETED: "Review could not be deleted"
 };

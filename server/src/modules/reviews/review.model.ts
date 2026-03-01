@@ -11,11 +11,6 @@ export interface IReview extends Document {
   comment: string;
   status: ReviewStatus;
   isVerifiedPurchase: boolean;
-  replies?: Array<{
-    userId: mongoose.Types.ObjectId;
-    comment: string;
-    createdAt: Date;
-  }>;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -76,26 +71,6 @@ const reviewSchema = new Schema<IReview>(
       type: Boolean,
       default: false,
     },
-
-    replies: [
-      {
-        _id: false,
-        userId: {
-          type: Schema.Types.ObjectId,
-          ref: "User",
-          required: true,
-        },
-        comment: {
-          type: String,
-          required: true,
-          trim: true,
-        },
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
   },
   { timestamps: true },
 );

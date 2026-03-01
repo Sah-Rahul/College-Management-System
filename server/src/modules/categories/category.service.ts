@@ -20,7 +20,7 @@ export const createCategoryServices = async (
       HTTP_STATUS.UNAUTHORIZED,
       CATEGORY_MESSAGES.UNAUTHORIZED,
     );
-  if (userRole !== UserRole.INSTITUTE_ADMIN)
+  if (userRole !== UserRole.INSTRUCTOR)
     throw new ApiError(
       HTTP_STATUS.FORBIDDEN,
       CATEGORY_MESSAGES.ONLY_ADMIN_CREATE,

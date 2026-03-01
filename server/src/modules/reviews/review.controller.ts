@@ -1,81 +1,75 @@
 import { Request, Response, NextFunction } from "express";
 import * as reviewService from "./review.service";
-import UserModel from "../users/user.model";
 import { ApiResponse } from "../../utils/ApiResponse";
 import { REVIEW_MESSAGES } from "./review.constants";
+import { HTTP_STATUS } from "../../constant/httpStatus";
+import asyncHandler from "../../utils/AsyncHandler";
+import { getParam } from "../../utils/getParams";
+import { UpdateReviewDTO } from "./review.dto";
 
-export const createReview = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+export const createReview = asyncHandler(
+  async (req: Request, res: Response) => {
     const userId = (req as any).user?.userId;
-    const comment = req.body;
 
-    const review = await reviewService.createReviewServices(comment, userId);
-    res.status(200).json(new ApiResponse(200, review, REVIEW_MESSAGES.CREATED));
-  } catch (error) {
-    next(error);
-  }
-};
+    const review = await reviewService.createReviewServices(req.body, userId);
 
-export const getAllReviews = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    // TODO: Implement
-  } catch (error) {
-    next(error);
-  }
-};
+    res
+      .status(HTTP_STATUS.CREATED)
+      .json(
+        new ApiResponse(HTTP_STATUS.CREATED, review, REVIEW_MESSAGES.CREATED),
+      );
+  },
+);
 
-export const getReviewById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    // TODO: Implement
-  } catch (error) {
-    next(error);
-  }
-};
+export const getAllReviews = asyncHandler(
+  async (req: Request, res: Response) => {
+    const reviews = await reviewService.getAllReviewsService(req.query);
+    res
+      .status(HTTP_STATUS.OK)
+      .json(new ApiResponse(HTTP_STATUS.OK, reviews, REVIEW_MESSAGES.FETCHED));
+  },
+);
 
-export const updateReview = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    // TODO: Implement
-  } catch (error) {
-    next(error);
-  }
-};
+export const getReviewById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const reviewId = getParam(req.params.id);
 
-export const deleteReview = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    // TODO: Implement
-  } catch (error) {
-    next(error);
-  }
-};
+    const review = await reviewService.getReviewByIdService(reviewId);
 
-export const addReply = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    // TODO: Implement
-  } catch (error) {
-    next(error);
-  }
-};
+    res
+      .status(HTTP_STATUS.OK)
+      .json(new ApiResponse(HTTP_STATUS.OK, review, REVIEW_MESSAGES.FETCHED));
+  },
+);
+
+export const updateReview = asyncHandler(
+  async (req: Request, res: Response) => {
+    const reviewId = getParam(req.params.id);
+    const userId = (req as any).user?.userId;
+    const data: UpdateReviewDTO = req.body;
+
+    const review = await reviewService.updateReviewService(
+      reviewId,
+      userId,
+      data,
+    );
+
+    res
+      .status(HTTP_STATUS.OK)
+      .json(new ApiResponse(HTTP_STATUS.OK, review, REVIEW_MESSAGES.UPDATED));
+  },
+);
+
+export const deleteReview = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const reviewId = getParam(req.params.id);
+    const userId = (req as any).user?.userId;
+
+    const review = await reviewService.deleteReviewService(reviewId, userId);
+
+    res
+      .status(HTTP_STATUS.OK)
+      .json(new ApiResponse(HTTP_STATUS.OK, review, REVIEW_MESSAGES.DELETED));
+  },
+);
+
