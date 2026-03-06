@@ -1,107 +1,137 @@
 import { z } from "zod";
+import { classDay, CourseLanguage, CourseLevel } from "./course.enums";
 
+// ─── Helpers ────────────────────────────────────────────────────────────────
+const toStringArray = (val: unknown): string[] => {
+  if (Array.isArray(val)) return val.map(String).filter(Boolean);
+  if (typeof val === "string") {
+    const trimmed = val.trim();
+    if (trimmed.startsWith("[")) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (Array.isArray(parsed)) return parsed.map(String).filter(Boolean);
+      } catch {}
+    }
+    return trimmed.split(",").map((s) => s.trim()).filter(Boolean);
+  }
+  return [];
+};
+
+const toEnumArray = <T extends string>(enumObj: Record<string, T>) =>
+  (val: unknown): T[] => {
+    const arr = toStringArray(val);
+    return arr.filter((v) => Object.values(enumObj).includes(v as T)) as T[];
+  };
+
+const parseCurriculum = (val: unknown) => {
+  if (Array.isArray(val)) return val;
+  if (typeof val === "string") {
+    const trimmed = val.trim();
+    if (trimmed.startsWith("[")) {
+      try {
+        return JSON.parse(trimmed);
+      } catch {}
+    }
+    if (trimmed.startsWith("{")) {
+      try {
+        return [JSON.parse(trimmed)];
+      } catch {}
+    }
+  }
+  return [];
+};
+
+const arrayField = z
+  .any()
+  .transform(toStringArray)
+  .pipe(z.array(z.string()))
+  .optional()
+  .default([]);
+
+const requiredArrayField = z
+  .any()
+  .transform(toStringArray)
+  .pipe(z.array(z.string()).min(1, "At least one value required"));
+
+const booleanField = z
+  .any()
+  .transform((val) => val === true || val === "true")
+  .pipe(z.boolean());
+
+// ─── Create Course Schema ───────────────────────────────────────────────────
 export const createCourseSchema = z.object({
- title: z.string().min(10).max(100),
-    subtitle: z.string().max(200).optional(),
-    description: z.string().min(100).max(5000),
-    thumbnail: z.string().url(),
-    previewVideo: z.string().url().optional(),
-    price: z.number().min(0),
-    discountedPrice: z.number().min(0).optional(),
-    level: z.enum(["beginner", "intermediate", "advanced", "all_levels"]),
-    language: z.enum([
-      "english",
-      "hindi",
-      "spanish",
-      "french",
-      "german",
-      "chinese",
-    ]),
-    categoryId: z.string().min(1),
-    instituteId: z.string().min(1),
-    curriculum: z
-      .array(
+  title: z
+    .string()
+    .min(10, "Title must be at least 10 characters")
+    .max(100, "Title must be at most 100 characters")
+    .nonempty("Title is required"),
+
+  subtitle: z.string().max(200).optional(),
+
+  description: z
+    .string()
+    .min(100, "Description must be at least 100 characters")
+    .max(5000, "Description too long")
+    .nonempty("Description is required"),
+
+  price: z.coerce
+    .number()
+    .min(0, "Price cannot be negative"),
+
+  discountPercentage: z.coerce.number().min(0).max(100).optional().default(0),
+
+  level: z.nativeEnum(CourseLevel),
+  language: z.nativeEnum(CourseLanguage),
+  categoryId: z.string().min(1, "categoryId is required"),
+
+  learningOutcomes: requiredArrayField,
+  prerequisites: arrayField,
+  tags: arrayField,
+
+  certificateEnabled: booleanField.optional().default(false),
+
+  classDay: z
+    .any()
+    .transform(toEnumArray(classDay))
+    .pipe(z.array(z.nativeEnum(classDay)))
+    .optional()
+    .default([classDay.SUNDAY]),
+
+  startDate: z.string().optional(),
+
+  curriculum: z
+    .any()
+    .transform(parseCurriculum)
+    .pipe(
+      z.array(
         z.object({
-          sectionTitle: z.string(),
-          sectionOrder: z.number(),
-          lectures: z.array(
-            z.object({
-              lectureTitle: z.string(),
-              lectureOrder: z.number(),
-              videoUrl: z.string().url().optional(),
-              videoDuration: z.number().optional(),
-              content: z.string().optional(),
-              resources: z
-                .array(
-                  z.object({
-                    title: z.string(),
-                    url: z.string().url(),
-                    type: z.string(),
-                  }),
-                )
-                .optional(),
-              isFree: z.boolean(),
-            }),
-          ),
-        }),
+          title: z.string().min(1),
+          lectures: z.array(z.string()).optional().default([]),
+        })
       )
-      .min(1),
-    learningOutcomes: z.array(z.string()).min(1),
-    prerequisites: z.array(z.string()),
-    requirements: z.array(z.string()),
-    tags: z.array(z.string()),
-    certificateEnabled: z.boolean(),
+    )
+    .optional()
+    .default([]),
 });
 
-export const updateCourseSchema = z.object({
-  params: z.object({
-    id: z.string().min(1),
-  }),
-  body: z.object({
-    title: z.string().min(10).max(100).optional(),
-    subtitle: z.string().max(200).optional(),
-    description: z.string().min(100).max(5000).optional(),
-    thumbnail: z.string().url().optional(),
-    previewVideo: z.string().url().optional(),
-    price: z.number().min(0).optional(),
-    discountedPrice: z.number().min(0).optional(),
-    level: z
-      .enum(["beginner", "intermediate", "advanced", "all_levels"])
-      .optional(),
-    language: z
-      .enum(["english", "hindi", "spanish", "french", "german", "chinese"])
-      .optional(),
-    categoryId: z.string().min(1).optional(),
-    learningOutcomes: z.array(z.string()).optional(),
-    prerequisites: z.array(z.string()).optional(),
-    requirements: z.array(z.string()).optional(),
-    tags: z.array(z.string()).optional(),
-    certificateEnabled: z.boolean().optional(),
-  }),
-});
+// ─── Update Course Schema ───────────────────────────────────────────────────
+export const updateCourseSchema = createCourseSchema.partial();
 
+// ─── Query Schema ──────────────────────────────────────────────────────────
 export const getCoursesQuerySchema = z.object({
-  query: z.object({
-    categoryId: z.string().optional(),
-    instituteId: z.string().optional(),
-    instructorId: z.string().optional(),
-    level: z.string().optional(),
-    language: z.string().optional(),
-    status: z.string().optional(),
-    search: z.string().optional(),
-    minPrice: z.string().transform(Number).optional(),
-    maxPrice: z.string().transform(Number).optional(),
-    isFeatured: z
-      .string()
-      .transform((val) => val === "true")
-      .optional(),
-    isBestseller: z
-      .string()
-      .transform((val) => val === "true")
-      .optional(),
-    page: z.string().transform(Number).optional(),
-    limit: z.string().transform(Number).optional(),
-    sortBy: z.string().optional(),
-    sortOrder: z.enum(["asc", "desc"]).optional(),
-  }),
+  categoryId: z.string().optional(),
+  instituteId: z.string().optional(),
+  instructorId: z.string().optional(),
+  level: z.nativeEnum(CourseLevel).optional(),
+  language: z.nativeEnum(CourseLanguage).optional(),
+  status: z.string().optional(),
+  search: z.string().optional(),
+  minPrice: z.coerce.number().min(0).optional(),
+  maxPrice: z.coerce.number().min(0).optional(),
+  isFeatured: booleanField.optional(),
+  isBestseller: booleanField.optional(),
+  page: z.coerce.number().min(1).default(1),
+  limit: z.coerce.number().min(1).max(50).default(10),
+  sortBy: z.enum(["price", "rating", "totalEnrollments", "createdAt"]).default("createdAt"),
+  sortOrder: z.enum(["asc", "desc"]).default("desc"),
 });

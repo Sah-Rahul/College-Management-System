@@ -33,3 +33,11 @@ export const deleteFromCloudinary = async (publicId: string) => {
 
   return result;
 };
+
+export const deleteVideoFromCloudinary = async (publicId: string) => {
+  if (!publicId) return;
+
+  const result = await cloudinary.uploader.destroy(publicId);
+
+  return result;
+};

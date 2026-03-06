@@ -16,10 +16,18 @@ export const COURSE_MESSAGES = {
   CREATED: "Course created successfully",
   UPDATED: "Course updated successfully",
   DELETED: "Course deleted successfully",
+  FETCHED: "Course fetched successfully",
+  FETCHED_ALL: "Courses fetched successfully",
   PUBLISHED: "Course published successfully",
   UNPUBLISHED: "Course unpublished successfully",
+  STATISTICS_FETCHED: "Course statistics fetched successfully",
+  FEATURED_TOGGLED: "Course featured status toggled",
+  BESTSELLER_TOGGLED: "Course bestseller status toggled",
+
+  // Errors
   NOT_FOUND: "Course not found",
-  ALREADY_EXISTS: "Course with this title already exists",
-  INSUFFICIENT_CONTENT: "Please add at least 5 lectures before publishing",
-  NOT_AUTHORIZED: "You are not authorized to modify this course",
+  NOT_AUTHORIZED: "You are not authorized to perform this action",
+  ALREADY_PUBLISHED: "Course is already published",
+  ALREADY_DRAFT: "Course is already unpublished",
+  THUMBNAIL_REQUIRED: "Thumbnail is required to publish course",
 };
