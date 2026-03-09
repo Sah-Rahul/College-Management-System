@@ -4,9 +4,12 @@ import { CategoryStatus } from "./category.enums";
 export interface ICategory extends Document {
   name: string;
   slug: string;
+
   image?: {
+    public_id: string;
     public_url: string;
   };
+
   status: CategoryStatus;
   totalCourses?: number;
   createdBy: mongoose.Types.ObjectId;
@@ -30,6 +33,10 @@ const categorySchema = new Schema<ICategory>(
     },
 
     image: {
+      public_id: {
+        type: String,
+      },
+
       public_url: {
         type: String,
       },

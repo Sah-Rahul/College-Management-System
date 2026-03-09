@@ -41,7 +41,7 @@ const Login = () => {
 
       toast.success(response.message);
 
-      router.push("/dashboard");
+      router.push("/admin/categories");
 
       console.log("Login response:", response);
     } catch (err: any) {

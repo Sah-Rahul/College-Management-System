@@ -4,6 +4,7 @@ import { ApiResponse } from "../../utils/ApiResponse";
 import { HTTP_STATUS } from "../../constant/httpStatus";
 import { ApiError } from "../../utils/ApiError";
 import asyncHandler from "../../utils/AsyncHandler";
+import { sendToken } from "../../utils/sendToken";
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
   const result = await authService.registerService(req.body);
@@ -13,26 +14,14 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const login = asyncHandler(async (req: Request, res: Response) => {
-  const { user, accessToken, refreshToken } = await authService.loginService(
-    req.body,
-  );
+  const user = await authService.loginService(req.body);
 
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  sendToken({
+    user,
+    statusCode: HTTP_STATUS.OK,
+    res,
+    message: `Welcome back ${user.firstName}`,
   });
-
-  res
-    .status(HTTP_STATUS.OK)
-    .json(
-      new ApiResponse(
-        HTTP_STATUS.OK,
-        { user, accessToken },
-        `Welcome back ${user.firstName}`,
-      ),
-    );
 });
 
 export const logout = asyncHandler(async (req: Request, res: Response) => {

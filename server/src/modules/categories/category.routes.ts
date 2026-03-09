@@ -9,12 +9,15 @@ import { upload } from "../../config/multer.config";
 
 const categoryRoutes = express.Router();
 
-categoryRoutes.use(isAuthenticated);
-categoryRoutes.use(authorize(UserRole.INSTRUCTOR));
-
 categoryRoutes.post(
   "/create",
+  isAuthenticated,
   upload.single("categoryImage"),
+  authorize(
+    UserRole.INSTRUCTOR,
+    UserRole.SUPER_ADMIN,
+    UserRole.INSTITUTE_ADMIN,
+  ),
   validate(createCategorySchema),
   categoryController.createCategory,
 );
@@ -27,11 +30,26 @@ categoryRoutes.get("/slug/:slug", categoryController.getCategoryBySlug);
 
 categoryRoutes.put(
   "/:id",
+  isAuthenticated,
+  authorize(
+    UserRole.INSTRUCTOR,
+    UserRole.SUPER_ADMIN,
+    UserRole.INSTITUTE_ADMIN,
+  ),
   upload.single("categoryImage"),
   validate(updateCategorySchema),
   categoryController.updateCategory,
 );
 
-categoryRoutes.delete("/:id", categoryController.deleteCategory);
+categoryRoutes.delete(
+  "/:id",
+  isAuthenticated,
+  authorize(
+    UserRole.INSTRUCTOR,
+    UserRole.SUPER_ADMIN,
+    UserRole.INSTITUTE_ADMIN,
+  ),
+  categoryController.deleteCategory,
+);
 
 export default categoryRoutes;

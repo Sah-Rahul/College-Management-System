@@ -9,6 +9,10 @@ import {
 import { CategoryStatus } from "./category.enums";
 import CategoryModel from "./category.model";
 import { CATEGORY_MESSAGES } from "./category.constants";
+import {
+  deleteFromCloudinary,
+  uploadToCloudinary,
+} from "../../config/cloudinary.config";
 
 export const createCategoryServices = async (
   data: CreateCategoryDTO,
@@ -20,7 +24,7 @@ export const createCategoryServices = async (
       HTTP_STATUS.UNAUTHORIZED,
       CATEGORY_MESSAGES.UNAUTHORIZED,
     );
-  if (userRole !== UserRole.INSTRUCTOR)
+  if (userRole !== UserRole.SUPER_ADMIN)
     throw new ApiError(
       HTTP_STATUS.FORBIDDEN,
       CATEGORY_MESSAGES.ONLY_ADMIN_CREATE,
@@ -88,27 +92,45 @@ export const updateCategoryServices = async (
   categoryId: string,
   data: UpdateCategoryDTO,
   userRole: string,
+  imageFile?: Express.Multer.File,
 ) => {
   if (!categoryId)
     throw new ApiError(HTTP_STATUS.BAD_REQUEST, "Category ID is required");
 
-  if (userRole !== UserRole.INSTITUTE_ADMIN)
+  if (userRole !== UserRole.SUPER_ADMIN)
     throw new ApiError(
       HTTP_STATUS.FORBIDDEN,
       CATEGORY_MESSAGES.ONLY_ADMIN_UPDATE,
     );
 
   const category = await CategoryModel.findById(categoryId);
+
   if (!category)
     throw new ApiError(HTTP_STATUS.NOT_FOUND, CATEGORY_MESSAGES.NOT_FOUND);
 
-  if (data.name) category.name = data.name.trim();
-  if (data.image)
-    category.image =
-      typeof data.image === "string" ? { public_url: data.image } : data.image;
-  if (data.status) category.status = data.status as CategoryStatus;
+  if (data.name) {
+    category.name = data.name.trim();
+  }
+
+  if (imageFile) {
+    if (category.image?.public_id) {
+      await deleteFromCloudinary(category.image.public_id);
+    }
+
+    const uploaded = await uploadToCloudinary(imageFile.buffer, "categories");
+
+    category.image = {
+      public_id: uploaded.public_id,
+      public_url: uploaded.secure_url,
+    };
+  }
+
+  if (data.status) {
+    category.status = data.status as CategoryStatus;
+  }
 
   await category.save();
+
   return category;
 };
 

@@ -20,7 +20,7 @@ import { QUEUES } from "../../config/queues";
 import { sendEmail } from "../../emailTemplates/sendEmail";
 import { ForgotPasswordEmailTemplate } from "../../emailTemplates/ForgotPasswordEmailTemplate";
 import { PasswordResetEmailTemplate } from "../../emailTemplates/PasswordResetemailtemplate";
- 
+
 export const registerService = async (data: RegisterDTO) => {
   const { firstName, lastName, email, password } = data;
 
@@ -113,38 +113,21 @@ export const loginService = async (data: LoginDTO) => {
   if (!user.isEmailVerified)
     throw new ApiError(HTTP_STATUS.FORBIDDEN, AUTH_MESSAGES.EMAIL_NOT_VERIFIED);
 
-  const accessToken = jwt.sign(
-    { userId: user._id, role: user.role },
-    process.env.ACCESS_TOKEN_SECRET!,
-    { expiresIn: AUTH_CONSTANTS.ACCESS_TOKEN_EXPIRY },
-  );
-
-  const refreshToken = jwt.sign(
-    { userId: user._id },
-    process.env.REFRESH_TOKEN_SECRET!,
-    { expiresIn: AUTH_CONSTANTS.REFRESH_TOKEN_EXPIRY },
-  );
-
   if (!user.isWelcomeEmailSent) {
     await sendToQueue(QUEUES.WELCOME, {
       email: user.email,
       userName: user.firstName,
     });
-
     user.isWelcomeEmailSent = true;
     await user.save();
   }
 
   return {
-    user: {
-      _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      role: user.role,
-    },
-    accessToken,
-    refreshToken,
+    _id: user._id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    role: user.role,
   };
 };
 

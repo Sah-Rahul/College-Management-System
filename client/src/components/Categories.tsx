@@ -4,27 +4,19 @@ import CategoryCard from "./CategoryCard";
 import arrowImg from "../../public/images/shape-1.webp";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { getAllCategoryAPI } from "@/services/category.service";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-
-export interface Category {
-  _id: string;
-  categoryName: string;
-  categoryImage: string;
-  courseInCategory: number;
-  slug: string;
-}
+import { ICategory, getAllCategoryAPI } from "../Api/services/category.service"; 
 
 const CategoriesSection = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const fetchCategories = async () => {
     setLoading(true);
     const { data, error } = await getAllCategoryAPI();
-    if (!error && data?.data) {
-      setCategories(data.data);
+    if (!error && data) {
+      setCategories(data);
     }
     setLoading(false);
   };
@@ -53,7 +45,6 @@ const CategoriesSection = () => {
             height={180}
             className="object-contain mr-10 w-32 h-auto"
           />
-
           <button className="bg-[#0ab89c] text-white font-semibold px-6 py-3 rounded-md cursor-pointer transition flex items-center gap-2">
             All Categories
             <ArrowRight className="w-5 h-5" />

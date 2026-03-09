@@ -9,7 +9,6 @@ import {
   Search,
   Sun,
 } from "lucide-react";
-import { useTheme } from "../context/ThemeContext";
 
 interface NavbarProps {
   collapsed: boolean;
@@ -18,12 +17,10 @@ interface NavbarProps {
 }
 
 const Navbar = ({ collapsed, setCollapsed, setMobileOpen }: NavbarProps) => {
-  const { theme, toggleTheme } = useTheme();
-
   return (
     <header
       className={`
-        fixed top-0 right-0 z-10 h-15
+        fixed top-0 right-0 z-50 h-15
         flex items-center justify-between px-4 gap-4
         transition-all duration-300
         bg-white dark:bg-black
@@ -61,10 +58,10 @@ const Navbar = ({ collapsed, setCollapsed, setMobileOpen }: NavbarProps) => {
 
       <div className="flex items-center gap-2">
         <button
-          onClick={toggleTheme}
+          // onClick={toggleTheme}
           className="w-8 h-8 rounded-lg text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center"
         >
-          {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+          {/* {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />} */}
         </button>
 
         <button className="relative w-8 h-8 rounded-lg text-black/50 dark:text-white/50 hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center">

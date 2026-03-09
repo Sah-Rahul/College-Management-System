@@ -1,8 +1,7 @@
 import { CategoryStatus } from "./category.enums";
 
 export interface CreateCategoryDTO {
-  name: string;
-  description?: string;
+  name: string; 
   image?: string;
 }
 

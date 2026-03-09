@@ -7,6 +7,7 @@ import { uploadToCloudinary } from "../../config/cloudinary.config";
 import { ApiError } from "../../utils/ApiError";
 import { GetCategoriesQueryDTO, UpdateCategoryDTO } from "./category.dto";
 import { CATEGORY_MESSAGES } from "./category.constants";
+import { getParam } from "../../utils/getParams";
 
 export const createCategory = asyncHandler(
   async (req: Request, res: Response) => {
@@ -38,29 +39,28 @@ export const createCategory = asyncHandler(
 
 export const updateCategory = asyncHandler(
   async (req: Request, res: Response) => {
-    const categoryId = Array.isArray(req.params.id)
-      ? req.params.id[0]
-      : req.params.id;
+    const categoryId = getParam(req.params.id);
 
     const userRole = (req as any).user?.role;
     const data: UpdateCategoryDTO = req.body;
+
+    const imageFile = req.file; // multer
 
     const updatedCategory = await categoryService.updateCategoryServices(
       categoryId,
       data,
       userRole,
+      imageFile
     );
 
-    res
-      .status(HTTP_STATUS.OK)
-      .json(
-        new ApiResponse(
-          HTTP_STATUS.OK,
-          updatedCategory,
-          CATEGORY_MESSAGES.UPDATED,
-        ),
-      );
-  },
+    res.status(HTTP_STATUS.OK).json(
+      new ApiResponse(
+        HTTP_STATUS.OK,
+        updatedCategory,
+        CATEGORY_MESSAGES.UPDATED
+      )
+    );
+  }
 );
 
 export const deleteCategory = asyncHandler(

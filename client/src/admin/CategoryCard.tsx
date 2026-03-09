@@ -8,25 +8,38 @@ import { ICategory } from "../Api/services/category.service";
 
 interface Props {
   item: ICategory;
+  onDelete: (id: string) => void;
+  onEdit: (cat: ICategory) => void;
 }
 
-const CategoryCard = ({ item }: Props) => {
+const CategoryCard = ({ item, onDelete, onEdit }: Props) => {
   const router = useRouter();
 
   return (
     <Card
       onClick={() => router.push(`/courses?category=${item.slug}`)}
-      className="
-        group w-full max-w-70 h-82
-        rounded-2xl border-none
-        bg-[#f2f3f3]
-        flex items-center
-        transition-all duration-500 ease-out
-        hover:-translate-y-2 hover:shadow-xl hover:bg-[#0ab99d]
-        cursor-pointer
-      "
+      className="group w-full max-w-70 h-82 rounded-2xl border-none bg-[#f2f3f3] flex items-center transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-xl hover:bg-[#0ab99d] cursor-pointer relative"
     >
       <CardContent className="flex flex-col relative items-center text-center p-8 w-full">
+        <div
+          className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 translate-x-6 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            onClick={() => onEdit(item)}
+            className="p-2 rounded-full bg-white shadow hover:bg-gray-100"
+          >
+            <EditIcon size={16} className="text-gray-600" />
+          </button>
+
+          <button
+            onClick={() => onDelete(item._id)}
+            className="p-2 rounded-full bg-white shadow hover:bg-gray-100"
+          >
+            <Trash2Icon size={16} className="text-red-500" />
+          </button>
+        </div>
+
         <div className="relative mb-8 flex items-center justify-center">
           <div
             className="
@@ -38,20 +51,13 @@ const CategoryCard = ({ item }: Props) => {
             "
           />
 
-          <div
-            className="
-              relative z-10 w-24 h-24 bg-[#0ab99d] flex items-center justify-center rounded-full
-              overflow-hidden
-              transition-colors duration-500
-              group-hover:bg-white
-            "
-          >
+          <div className="relative z-10 w-24 h-24 bg-[#0ab99d] flex items-center justify-center rounded-full overflow-hidden transition-colors duration-500 group-hover:bg-white">
             {item.image?.public_url ? (
               <Image
                 src={item.image.public_url}
                 alt={item.name}
-                width={90}
-                height={90}
+                width={96}
+                height={96}
                 className="object-cover w-15 h-15"
               />
             ) : (
@@ -74,7 +80,6 @@ const CategoryCard = ({ item }: Props) => {
           />
         </p>
       </CardContent>
-      
     </Card>
   );
 };
