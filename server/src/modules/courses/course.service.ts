@@ -150,68 +150,10 @@ export const updateCourseService = async (
 };
 
 export const getAllCoursesService = async (query: GetCoursesQueryDTO) => {
-  const {
-    categoryId,
-    instituteId,
-    instructorId,
-    level,
-    language,
-    status,
-    search,
-    minPrice,
-    maxPrice,
-    isFeatured,
-    isBestseller,
-    page = 1,
-    limit = 10,
-    sortBy = "createdAt",
-    sortOrder = "desc",
-  } = query;
 
-  const filter: Record<string, any> = {};
+  const allCourse = await CourseModel.find();
 
-  if (categoryId) filter.categoryId = categoryId;
-  if (instituteId) filter.instituteId = instituteId;
-  if (instructorId) filter.instructorId = instructorId;
-  if (level) filter.level = level;
-  if (language) filter.language = language;
-  if (status) filter.status = status;
-  if (typeof isFeatured === "boolean") filter.isFeatured = isFeatured;
-  if (typeof isBestseller === "boolean") filter.isBestseller = isBestseller;
-
-  if (minPrice !== undefined || maxPrice !== undefined) {
-    filter.discountedPrice = {};
-    if (minPrice !== undefined) filter.discountedPrice.$gte = minPrice;
-    if (maxPrice !== undefined) filter.discountedPrice.$lte = maxPrice;
-  }
-
-  if (search) {
-    filter.$text = { $search: search };
-  }
-
-  const sortOptions: Record<string, 1 | -1> = {
-    [sortBy]: sortOrder === "asc" ? 1 : -1,
-  };
-
-  const skip = (page - 1) * limit;
-
-  const [courses, total] = await Promise.all([
-    CourseModel.find(filter)
-      .sort(sortOptions)
-      .skip(skip)
-      .limit(limit)
-      .populate("categoryId", "name")
-      .populate("instructorId", "firstName lastName avatar"),
-    CourseModel.countDocuments(filter),
-  ]);
-
-  return {
-    courses,
-    total,
-    page,
-    limit,
-    totalPages: Math.ceil(total / limit),
-  };
+  return allCourse;
 };
 
 export const getCourseByIdService = async (courseId: string) => {

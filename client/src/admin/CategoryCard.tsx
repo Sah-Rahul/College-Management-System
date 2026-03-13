@@ -5,6 +5,7 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { ArrowRight, EditIcon, Trash2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ICategory } from "../Api/services/category.service";
+import Link from "next/link";
 
 interface Props {
   item: ICategory;
@@ -13,13 +14,8 @@ interface Props {
 }
 
 const CategoryCard = ({ item, onDelete, onEdit }: Props) => {
-  const router = useRouter();
-
   return (
-    <Card
-      onClick={() => router.push(`/courses?category=${item.slug}`)}
-      className="group w-full max-w-70 h-82 rounded-2xl border-none bg-[#f2f3f3] flex items-center transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-xl hover:bg-[#0ab99d] cursor-pointer relative"
-    >
+    <Card className="group w-full max-w-70 h-82 rounded-2xl border-none bg-[#f2f3f3] flex items-center transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-xl hover:bg-[#0ab99d] cursor-pointer relative">
       <CardContent className="flex flex-col relative items-center text-center p-8 w-full">
         <div
           className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 translate-x-6 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out"
@@ -53,23 +49,27 @@ const CategoryCard = ({ item, onDelete, onEdit }: Props) => {
 
           <div className="relative z-10 w-24 h-24 bg-[#0ab99d] flex items-center justify-center rounded-full overflow-hidden transition-colors duration-500 group-hover:bg-white">
             {item.image?.public_url ? (
-              <Image
-                src={item.image.public_url}
-                alt={item.name}
-                width={96}
-                height={96}
-                className="object-cover w-15 h-15"
-              />
+              <Link href={`/categories/${item.slug}`}>
+                <Image
+                  src={item.image.public_url}
+                  alt={item.name}
+                  width={96}
+                  height={96}
+                  className="object-cover rounded-lg"
+                />
+              </Link>
             ) : (
               <span className="text-white group-hover:text-[#0ab99d] text-2xl font-bold transition-colors duration-500">
-                {item.name.charAt(0).toUpperCase()}
+                <Link href={`/categories/${item.slug}`}>
+                  {item.name.charAt(0).toUpperCase()}
+                </Link>
               </span>
             )}
           </div>
         </div>
 
         <CardTitle className="text-lg font-semibold text-gray-600 transition-colors duration-300 group-hover:text-white">
-          {item.name}
+          <Link href={`/categories/${item.slug}`}>{item.name}</Link>
         </CardTitle>
 
         <p className="mt-3 flex items-center gap-1 text-sm text-gray-500 transition-colors duration-300 group-hover:text-white">

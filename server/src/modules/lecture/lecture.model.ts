@@ -8,24 +8,22 @@ export interface IResource {
 }
 
 export interface ILecture extends Document {
-  courseId: mongoose.Types.ObjectId;     // kis course ka hai
-  sectionId: string;                     // course.curriculum ka _id
+  courseId: mongoose.Types.ObjectId;
+  sectionId: string;
   title: string;
   description?: string;
   type: LectureType;
 
-  // Video fields
   video?: {
     url: string;
     publicId: string;
-    duration: number;   // seconds
+    duration: number;
   };
 
-  // Article fields
   articleContent?: string;
 
-  order: number;                         // section ke andar position
-  isPreview: boolean;                    // free preview
+  order: number;
+  isPreview: boolean;
   status: LectureStatus;
   resources: IResource[];
 
@@ -55,7 +53,6 @@ const lectureSchema = new Schema<ILecture>(
       index: true,
     },
 
-    // course.curriculum array ka ObjectId
     sectionId: {
       type: String,
       required: true,
@@ -74,7 +71,7 @@ const lectureSchema = new Schema<ILecture>(
     video: {
       url: { type: String },
       publicId: { type: String },
-      duration: { type: Number, default: 0 },   // seconds
+      duration: { type: Number, default: 0 },
     },
 
     articleContent: { type: String },

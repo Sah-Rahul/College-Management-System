@@ -18,14 +18,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import Loading from "../components/Loading";
 import CategoryCard from "./CategoryCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LayoutGrid } from "lucide-react";
 import CategoriesUpdateModal from "./CategoriesUpdateModal";
+import SkeletonLoading from "../components/skeletonLoading";
 
 const Categories = () => {
-  const router = useRouter();
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [name, setName] = useState("");
   const [image, setImage] = useState<File | null>(null);
@@ -153,7 +152,7 @@ const Categories = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 place-items-center">
           {fetching ? (
-            <Loading />
+            <SkeletonLoading key={8} />
           ) : categories.length === 0 ? (
             <p className="text-gray-400 col-span-4 text-center py-16">
               No categories found.{" "}

@@ -15,7 +15,6 @@ const courseRoutes = express.Router();
 
 courseRoutes.get(
   "/",
-  validate(getCoursesQuerySchema),
   courseController.getAllCourses,
 );
 

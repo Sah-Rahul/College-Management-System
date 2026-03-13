@@ -72,7 +72,7 @@ export const createCourseSchema = z.object({
 
   description: z
     .string()
-    .min(100, "Description must be at least 100 characters")
+    .min(10, "Description must be at least 10 characters")
     .max(5000, "Description too long")
     .nonempty("Description is required"),
 
@@ -118,20 +118,26 @@ export const updateCourseSchema = createCourseSchema.partial();
 
 export const getCoursesQuerySchema = z.object({
   categoryId: z.string().optional(),
-  instituteId: z.string().optional(),
   instructorId: z.string().optional(),
+
   level: z.nativeEnum(CourseLevel).optional(),
   language: z.nativeEnum(CourseLanguage).optional(),
+
   status: z.string().optional(),
   search: z.string().optional(),
+
   minPrice: z.coerce.number().min(0).optional(),
   maxPrice: z.coerce.number().min(0).optional(),
-  isFeatured: booleanField.optional(),
-  isBestseller: booleanField.optional(),
+
+  isFeatured: z.coerce.boolean().optional(),
+  isBestseller: z.coerce.boolean().optional(),
+
   page: z.coerce.number().min(1).default(1),
   limit: z.coerce.number().min(1).max(50).default(10),
+
   sortBy: z
     .enum(["price", "rating", "totalEnrollments", "createdAt"])
     .default("createdAt"),
+
   sortOrder: z.enum(["asc", "desc"]).default("desc"),
 });

@@ -5,17 +5,15 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { ArrowRight, EditIcon, Trash2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ICategory } from "../Api/services/category.service";
+import Link from "next/link";
 
 interface Props {
   item: ICategory;
 }
 
 const CategoryCard = ({ item }: Props) => {
-  const router = useRouter();
-
   return (
     <Card
-      onClick={() => router.push(`/courses?category=${item.slug}`)}
       className="
         group w-full max-w-70 h-82
         rounded-2xl border-none
@@ -47,13 +45,15 @@ const CategoryCard = ({ item }: Props) => {
             "
           >
             {item.image?.public_url ? (
-              <Image
-                src={item.image.public_url}
-                alt={item.name}
-                width={90}
-                height={90}
-                className="object-cover w-15 h-15"
-              />
+              <Link href={`/courses?category=${item.slug}`}>
+                <Image
+                  src={item.image.public_url}
+                  alt={item.name}
+                  width={90}
+                  height={90}
+                  className="object-cover w-15 h-15"
+                />
+              </Link>
             ) : (
               <span className="text-white group-hover:text-[#0ab99d] text-2xl font-bold transition-colors duration-500">
                 {item.name.charAt(0).toUpperCase()}
@@ -63,7 +63,7 @@ const CategoryCard = ({ item }: Props) => {
         </div>
 
         <CardTitle className="text-lg font-semibold text-gray-600 transition-colors duration-300 group-hover:text-white">
-          {item.name}
+          <Link href={`/courses?category=${item.slug}`}>{item.name}</Link>
         </CardTitle>
 
         <p className="mt-3 flex items-center gap-1 text-sm text-gray-500 transition-colors duration-300 group-hover:text-white">
@@ -74,7 +74,6 @@ const CategoryCard = ({ item }: Props) => {
           />
         </p>
       </CardContent>
-      
     </Card>
   );
 };

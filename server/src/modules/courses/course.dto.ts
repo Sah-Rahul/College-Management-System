@@ -53,21 +53,3 @@ export interface GetCoursesQueryDTO {
   sortBy?: string;
   sortOrder?: "asc" | "desc";
 }
-
-export interface GetCoursesQueryDTO {
-  categoryId?: string;
-  instituteId?: string;
-  instructorId?: string;
-  level?: string;
-  language?: string;
-  status?: string;
-  search?: string;
-  minPrice?: number;
-  maxPrice?: number;
-  isFeatured?: boolean;
-  isBestseller?: boolean;
-  page?: number;
-  limit?: number;
-  sortBy?: string;
-  sortOrder?: "asc" | "desc";
-}

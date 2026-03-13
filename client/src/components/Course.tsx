@@ -1,69 +1,39 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../../components/ui/button";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import CourseCard from "./CourseCard";
 import { ArrowRight } from "lucide-react";
 
-// Images
+ 
 import shapeImg from "../../public/course/shape-2.webp";
-import DataScience from "../../public/course/course1.jpg";
-import AdobeIllustrator from "../../public/course/course2.jpg";
-import BusinessAnalysis from "../../public/course/course3.jpg";
-import Teacher from "../../public/images/team1.png";
 import courseLine from "../../public/images/courseLine.png";
 import spin from "../../public/images/spin.png";
 
-export interface CourseI {
-  image: StaticImageData;
-  rating: number;
-  title: string;
-  lecture: string;
-  duration: string;
-  student: number;
-  teacher: string;
-  teacherImage: StaticImageData;
-  price: number;
-}
+ 
+import { getAllCourseApi } from "../Api/services/course.service";
+import { Course as CourseInterface } from "../interface/course.interface";
+import SkeletonLoading from "./skeletonLoading";
 
 const Course = () => {
-  
-  const courses: CourseI[] = [
-    {
-      image: DataScience,
-      rating: 4.5,
-      title: "React for Beginners",
-      lecture: "12 Lectures",
-      duration: "6 hours",
-      student: 1200,
-      teacher: "John Doe",
-      teacherImage: Teacher,
-      price: 49,
-    },
-    {
-      image: AdobeIllustrator,
-      rating: 4.7,
-      title: "Advanced JavaScript",
-      lecture: "20 Lectures",
-      duration: "10 hours",
-      student: 950,
-      teacher: "Jane Smith",
-      teacherImage: Teacher,
-      price: 59,
-    },
-    {
-      image: BusinessAnalysis,
-      rating: 4.9,
-      title: "Fullstack Development",
-      lecture: "30 Lectures",
-      duration: "15 hours",
-      student: 1800,
-      teacher: "Alice Johnson",
-      teacherImage: Teacher,
-      price: 99,
-    },
-  ];
+  const [courses, setcourses] = useState<CourseInterface[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const allCourses = async () => {
+    try {
+      const response = await getAllCourseApi(); 
+      setcourses(response.data || []);
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    allCourses();
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#F2F2F2] relative">
@@ -81,8 +51,8 @@ const Course = () => {
           <Button className="mb-4 mt-10 bg-[#C4E7E1] hover:bg-[#C4E7E1] px-9 text-[#0AB99D] rounded-sm">
             Top Popular Course
           </Button>
-          <h1 className="text-2xl  sm:text-3xl md:text-4xl lg:text-5xl text-[#0E2A46] font-bold capitalize">
-            Study Course
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#0E2A46] font-bold capitalize">
+            Study Course{" "}
             <span className="relative inline-block">
               student
               <svg
@@ -99,7 +69,7 @@ const Course = () => {
                   strokeLinecap="round"
                 />
               </svg>
-            </span>
+            </span>{" "}
             can
           </h1>
           <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-[#0E2A46] font-bold capitalize">
@@ -114,14 +84,18 @@ const Course = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1    md:grid-cols-2 lg:grid-cols-3 gap-6 px-10 py-10">
-        {courses.map((item, index) => (
-          <CourseCard key={index} item={item} />
-        ))}
-      </div>
+      {loading ? (
+       <SkeletonLoading count={6} />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-10 py-10">
+          {courses.map((course) => (
+            <CourseCard key={course._id} item={course} />
+          ))}
+        </div>
+      )}
 
-      <div className=" flex items-center absolute top-250 left-137.5">
-        <Button className="bg-[#0AB99D] hover:bg-[#06705e]  cursor-pointer w-56 text-md px-14 sm:px-14 py-3 sm:py-7 text-white flex items-center gap-2 group">
+      <div className="flex justify-center pb-20">
+        <Button className="bg-[#0AB99D] hover:bg-[#06705e] cursor-pointer w-56 text-md px-14 py-7 text-white flex items-center gap-2 group">
           Load More Course
           <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-2 group-hover:scale-110" />
         </Button>
@@ -129,33 +103,15 @@ const Course = () => {
 
       <style>{`
         @keyframes float {
-          0%, 100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
         }
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-
-        .animate-wave {
-          animation: wave 4s ease-in-out infinite;
-        }
-
+        .animate-float { animation: float 3s ease-in-out infinite; }
         @keyframes spin360 {
-        0% {
-          transform: rotate(0deg);
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
-        100% {
-          transform: rotate(360deg);
-        }
-  }
-        .rotate-spin {
-        animation: spin360 4s linear infinite;
-        }
-
+        .rotate-spin { animation: spin360 4s linear infinite; }
       `}</style>
     </div>
   );

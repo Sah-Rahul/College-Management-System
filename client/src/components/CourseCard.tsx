@@ -1,107 +1,106 @@
 import React from "react";
 import Image from "next/image";
-import { Star, BookOpen, Clock, Users, ShoppingCart } from "lucide-react";
-import { CourseI } from "./Course";
+import { BookOpen, Clock, Users, ShoppingCart } from "lucide-react";
+import { Course } from "../interface/course.interface";
+import { renderStars } from "../utils/renderStar";
+import Link from "next/link";
 
 interface Props {
-  item: CourseI;
+  item: Course;
 }
 
 const CourseCard = ({ item }: Props) => {
   return (
-    <>
-      <div className="bg-white mb-36 rounded-sm overflow-hidden border border-gray-100 transition-shadow duration-300 hover:shadow-xl">
-        <div className="px-4 pt-4">
-          <div className="relative h-64 w-full overflow-hidden rounded-sm group">
+    <div className="bg-white mb-10 rounded-sm overflow-hidden border border-gray-100  h-full flex flex-col">
+      <div className="px-4 pt-4">
+        <div className="relative h-64 w-full overflow-hidden rounded-sm group">
+          <Link href={`/courses=${item.slug}`}>
             <Image
-              src={item.image}
+              src={item.thumbnail?.url || "/placeholder-course.jpg"}
               alt={item.title}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-110"
             />
+          </Link>
+          <span className="absolute top-2 left-2 bg-[#0AB99D] text-white px-4 py-1 rounded-sm text-xs font-semibold shadow capitalize">
+            {item.tags && item.tags.length > 0 ? item.tags[0] : "Development"}
+          </span>
+        </div>
+      </div>
 
-            <span className="absolute top-1 left-1 bg-[#0AB99D] text-white px-6 py-2 rounded-sm  text-xs font-semibold shadow">
-              Development
+      <div className="p-7 flex flex-col grow">
+        <div className="flex items-center gap-1 mb-4">
+          {renderStars(item.rating)}
+          <span className="ml-2 text-sm font-medium text-gray-500">
+            ({item.totalReviews})
+          </span>
+        </div>
+
+        <h3 className="text-xl font-extrabold text-slate-900 leading-snug mb-5 hover:text-[#0AB99D] transition-colors cursor-pointer min-h-14">
+          <Link href={`/courses?category=${item.slug}`}>{item.title}</Link>
+        </h3>
+
+        <div className="flex items-center justify-between text-gray-600 mb-5">
+          <div className="flex items-center gap-2">
+            <BookOpen size={14} className="text-[#0AB99D]" />
+            <span className="text-[13px]">{item.totalLectures} Lectures</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Clock size={14} className="text-[#0AB99D]" />
+            <span className="text-[13px]">{item.duration}h</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Users size={14} className="text-[#0AB99D]" />
+            <span className="text-[13px]">
+              {item.totalEnrollments}+ Students
             </span>
           </div>
         </div>
 
-        <div className="p-7">
-          <div className="flex items-center gap-1 mb-4">
-            {[...Array(4)].map((_, i) => (
-              <Star
-                key={i}
-                size={18}
-                className="fill-emerald-400 text-emerald-400"
-              />
-            ))}
-            <Star size={18} className="text-gray-300" />
-            <span className="ml-2 text-sm font-medium text-gray-500">
-              ({item.rating})
-            </span>
-          </div>
-
-          <h3 className="text-xl  w-fit font-extrabold text-slate-900 leading-snug mb-5 hover:text-[#0AB99D] transition-colors cursor-pointer">
-            {item.title}
-          </h3>
-
-          <div className="flex items-center justify-between ">
-            <div className="flex items-center gap-2">
-              <BookOpen size={14} />
-              <span className="text-[14px]">{item.lecture}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock size={14} />
-              <span className="text-[14px]">{item.duration}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Users size={14} />
-              <span className="text-[14px]">{item.student}+ Students</span>
-            </div>
-          </div>
-
-          <div className="mt-4 mb-4 border-black  border-dashed border-b-2"></div>
+        <div className="mt-auto">
+          <div className="mb-4 border-gray-700 border-dashed border-b-2"></div>
 
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded-full overflow-hidden border">
-              <Image
-                src={item.teacherImage}
-                alt={item.teacher}
-                className="w-full h-full object-cover"
-              />
+            <div className="w-8 h-8 rounded-full overflow-hidden border bg-gray-100 flex items-center justify-center">
+              <span className="text-[10px] font-bold text-[#0AB99D]">
+                {item.level.charAt(0).toUpperCase()}
+              </span>
             </div>
             <p className="text-sm text-gray-600">
               By{" "}
               <span className="font-bold text-slate-800 hover:text-[#0AB99D] cursor-pointer">
-                {item.teacher}
+                Instructor
               </span>{" "}
               in{" "}
-              <span className="font-semibold text-slate-800">Development</span>
+              <span className="font-semibold text-slate-800 capitalize">
+                {item.level}
+              </span>
             </p>
           </div>
 
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="text-2xl font-bold text-slate-900">
-                ${item.price}
+                Rs{item.discountedPrice}
               </span>
-              <del className="text-gray-400 text-lg">$120</del>
+              {item.price > item.discountedPrice && (
+                <del className="text-gray-400 text-lg">₹{item.price}</del>
+              )}
             </div>
 
-            <div className="flex items-center gap-2 cursor-pointer group hover:text-gray-600">
+            <div className="flex items-center gap-2 cursor-pointer group hover:text-[#0AB99D]">
               <ShoppingCart
                 size={20}
-                className="text-black transition-colors group-hover:text-gray-600"
+                className="text-black transition-colors group-hover:text-[#0AB99D]"
               />
-              <button className="text-black font-semibold transition-colors cursor-pointer group-hover:text-gray-600">
+              <button className="text-black font-semibold transition-colors cursor-pointer group-hover:text-[#0AB99D]">
                 Add to Cart
               </button>
             </div>
           </div>
         </div>
       </div>
-      
-    </>
+    </div>
   );
 };
 

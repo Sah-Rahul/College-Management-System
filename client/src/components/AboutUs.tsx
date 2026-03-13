@@ -10,17 +10,16 @@ import { Button } from "../../components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 const AboutUs = () => {
-  
   return (
     <div className="h-200  flex bg-gray-500">
       <div className="bg-white   overflow-hidden relative h-full w-150">
         <div className="pt-16 px-5">
           <Image src={dottedImg} alt="dottedImg" className=" animate-float" />
         </div>
-        <div className="h-147.5 overflow-hidden bg-red-500 w-75 absolute top-42 right-0 rounded-sm">
+        <div className="h-147.5 overflow-hidden  w-75 absolute top-42 right-0 rounded-sm">
           <Image src={growImg} alt="growImg" />
         </div>
-        <div className="h-86 w-62 top-32 left-32 rounded overflow-hidden bg-red-500 absolute">
+        <div className="h-86 w-62 top-32 left-32 rounded overflow-hidden  absolute">
           <Image
             src={growImg2}
             alt="growImg"
@@ -29,7 +28,7 @@ const AboutUs = () => {
         </div>
 
         <div
-          className="h-72 w-62 bg-red-500 absolute 
+          className="h-72 w-62  absolute 
         bottom-5 left-32 rounded"
         >
           <Image

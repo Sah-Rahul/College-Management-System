@@ -5,8 +5,8 @@ import { HTTP_STATUS } from "../../constant/httpStatus";
 import { ApiResponse } from "../../utils/ApiResponse";
 import { COURSE_MESSAGES } from "./course.constants";
 import { GetCoursesQueryDTO, UpdateCourseDTO } from "./course.dto";
-import { getParam } from "../../utils/getParams";
-import CourseModel from "./course.model";
+import { getParam } from "../../utils/getParams"; 
+import { getCoursesQuerySchema } from "./course.zod";
 
 export const createCourse = asyncHandler(
   async (req: Request, res: Response) => {
@@ -29,18 +29,21 @@ export const createCourse = asyncHandler(
   },
 );
 
-export const getAllCourses = asyncHandler(
+ export const getAllCourses = asyncHandler(
   async (req: Request, res: Response) => {
+
     const query = req.query as unknown as GetCoursesQueryDTO;
 
     const result = await courseService.getAllCoursesService(query);
 
-    res
-      .status(HTTP_STATUS.OK)
-      .json(
-        new ApiResponse(HTTP_STATUS.OK, result, COURSE_MESSAGES.FETCHED_ALL),
-      );
-  },
+    res.status(HTTP_STATUS.OK).json(
+      new ApiResponse(
+        HTTP_STATUS.OK,
+        result,
+        COURSE_MESSAGES.FETCHED_ALL
+      )
+    );
+  }
 );
 
 export const getCourseById = asyncHandler(

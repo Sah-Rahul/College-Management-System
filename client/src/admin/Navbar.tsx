@@ -39,7 +39,7 @@ const Navbar = ({ collapsed, setCollapsed, setMobileOpen }: NavbarProps) => {
 
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="hidden lg:flex w-8 h-8 rounded-lg items-center justify-center text-[#09b89b] hover:bg-black/5 dark:hover:bg-white/5"
+          className="hidden cursor-pointer lg:flex w-8 h-8 rounded-lg items-center justify-center text-[#09b89b] hover:bg-black/5 dark:hover:bg-white/5"
         >
           {collapsed ? <ChevronRight size={21} /> : <ChevronLeft size={21} />}
         </button>
