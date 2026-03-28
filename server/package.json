@@ -3,14 +3,25 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "processor": "node src/modules/processor/consumer.js",
+    "init": "node init-system.js",
+    "init:env": "node init-system.js --generate-env"
   },
-  "keywords": [],
+  "keywords": [
+    "api",
+    "monitoring",
+    "tracking",
+    "analytics"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "amqplib": "^0.10.9",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
@@ -18,6 +29,7 @@
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.3.1",
+    "pg": "^8.20.0",
     "uuid": "^13.0.0",
     "winston": "^3.19.0"
   }
