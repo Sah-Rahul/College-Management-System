@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { ArrowRight, EditIcon, Trash2Icon } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 import { ICategory } from "../Api/services/category.service";
 import Link from "next/link";
 

@@ -7,8 +7,8 @@ import { getAllCourseApi } from "../Api/services/course.service";
 import CourseCard from "./CourseCard";
 import Loading from "./Loading";
 import { getAllCategoryAPI } from "../Api/services/category.service";
-import { Category } from "../admin/AddCourseModal";
 import { Search, SlidersHorizontal, X } from "lucide-react";
+import { Category } from "../instructor/AddCourseModal";
 
 const Allcourses = () => {
   const [courses, setcourses] = useState<CourseInterface[]>([]);
@@ -58,8 +58,6 @@ const Allcourses = () => {
   return (
     <Layout>
       <div className="min-h-screen bg-gray-50">
-        
-        {/* Header Banner */}
         <div className="bg-gray-900 py-10 px-10">
           <h1 className="text-3xl font-bold text-white mb-2">All Courses</h1>
           <p className="text-gray-400 text-sm">
@@ -68,11 +66,7 @@ const Allcourses = () => {
         </div>
 
         <div className="px-10 py-8">
-          
-          {/* Search + Filter Toggle Row */}
           <div className="flex items-center gap-3 mb-6">
-            
-            {/* Search Bar */}
             <div className="relative flex-1">
               <Search
                 size={18}
@@ -95,7 +89,6 @@ const Allcourses = () => {
               )}
             </div>
 
-            {/* Filter Toggle Button */}
             <button
               onClick={() => setShowFilters(!showFilters)}
               className={`flex items-center gap-2 px-4 py-3 rounded-lg border text-sm font-medium transition-colors ${
@@ -111,7 +104,6 @@ const Allcourses = () => {
               )}
             </button>
 
-            {/* Clear Filters */}
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
@@ -123,11 +115,8 @@ const Allcourses = () => {
             )}
           </div>
 
-          {/* Filter Panel */}
           {showFilters && (
             <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-              
-              {/* Category Filter */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Category
@@ -146,7 +135,6 @@ const Allcourses = () => {
                 </select>
               </div>
 
-              {/* Level Filter */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Level
@@ -164,7 +152,6 @@ const Allcourses = () => {
                 </select>
               </div>
 
-              {/* Language Filter */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Language
@@ -180,11 +167,9 @@ const Allcourses = () => {
                   <option value="nepali">Nepali</option>
                 </select>
               </div>
-
             </div>
           )}
 
-          {/* Active Filter Tags */}
           {hasActiveFilters && (
             <div className="flex flex-wrap gap-2 mb-5">
               {searchQuery && (
@@ -197,7 +182,8 @@ const Allcourses = () => {
               )}
               {selectedCategory && (
                 <span className="flex items-center gap-1 bg-teal-50 text-teal-600 text-xs px-3 py-1.5 rounded-full border border-teal-200">
-                  Category: {categories.find((c) => c._id === selectedCategory)?.name}
+                  Category:{" "}
+                  {categories.find((c) => c._id === selectedCategory)?.name}
                   <button onClick={() => setSelectedCategory("")}>
                     <X size={12} />
                   </button>
@@ -222,7 +208,6 @@ const Allcourses = () => {
             </div>
           )}
 
-          {/* Courses Grid */}
           {loading ? (
             <Loading />
           ) : (
@@ -240,7 +225,6 @@ const Allcourses = () => {
               )}
             </>
           )}
-
         </div>
       </div>
     </Layout>
