@@ -1,0 +1,3 @@
+{"error":"Handshake terminated by server: 403 (ACCESS-REFUSED) with message \"ACCESS_REFUSED - Login was refused using authentication mechanism PLAIN. For details see the broker logfile.\"","level":"error","message":"RabbitMQ connection failed","service":"api-monitoring","timestamp":"2026-04-08 15:24:12"}
+{"error":"Handshake terminated by server: 403 (ACCESS-REFUSED) with message \"ACCESS_REFUSED - Login was refused using authentication mechanism PLAIN. For details see the broker logfile.\"","level":"error","message":"RabbitMQ connection failed","service":"api-monitoring","timestamp":"2026-04-08 15:24:36"}
+{"error":"getaddrinfo EAI_AGAIN rabbitmq","level":"error","message":"RabbitMQ connection failed","service":"api-monitoring","timestamp":"2026-04-08 15:27:49"}

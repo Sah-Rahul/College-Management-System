@@ -1,0 +1,50 @@
+{"level":"info","message":"Initializing database connections...","service":"api-monitoring","timestamp":"2026-04-08 15:24:12"}
+{"level":"info","message":"MongoDB connected: localhost","service":"api-monitoring","timestamp":"2026-04-08 15:24:12"}
+{"level":"info","message":"PostgreSQL pool created","service":"api-monitoring","timestamp":"2026-04-08 15:24:12"}
+{"level":"info","message":"PG connected successfully at Wed Apr 08 2026 15:24:12 GMT+0545 (Nepal Time)","service":"api-monitoring","timestamp":"2026-04-08 15:24:12"}
+{"level":"info","message":"Connecting to RabbitMQ...","service":"api-monitoring","timestamp":"2026-04-08 15:24:12"}
+{"error":"Handshake terminated by server: 403 (ACCESS-REFUSED) with message \"ACCESS_REFUSED - Login was refused using authentication mechanism PLAIN. For details see the broker logfile.\"","level":"error","message":"RabbitMQ connection failed","service":"api-monitoring","timestamp":"2026-04-08 15:24:12"}
+{"level":"info","message":"Initializing database connections...","service":"api-monitoring","timestamp":"2026-04-08 15:24:36"}
+{"level":"info","message":"MongoDB connected: localhost","service":"api-monitoring","timestamp":"2026-04-08 15:24:36"}
+{"level":"info","message":"PostgreSQL pool created","service":"api-monitoring","timestamp":"2026-04-08 15:24:36"}
+{"level":"info","message":"PG connected successfully at Wed Apr 08 2026 15:24:36 GMT+0545 (Nepal Time)","service":"api-monitoring","timestamp":"2026-04-08 15:24:36"}
+{"level":"info","message":"Connecting to RabbitMQ...","service":"api-monitoring","timestamp":"2026-04-08 15:24:36"}
+{"error":"Handshake terminated by server: 403 (ACCESS-REFUSED) with message \"ACCESS_REFUSED - Login was refused using authentication mechanism PLAIN. For details see the broker logfile.\"","level":"error","message":"RabbitMQ connection failed","service":"api-monitoring","timestamp":"2026-04-08 15:24:36"}
+{"level":"info","message":"Initializing database connections...","service":"api-monitoring","timestamp":"2026-04-08 09:42:42"}
+{"level":"info","message":"MongoDB connected: mongo","service":"api-monitoring","timestamp":"2026-04-08 09:42:42"}
+{"level":"info","message":"PostgreSQL pool created","service":"api-monitoring","timestamp":"2026-04-08 09:42:42"}
+{"level":"info","message":"PG connected successfully at Wed Apr 08 2026 09:42:42 GMT+0000 (Coordinated Universal Time)","service":"api-monitoring","timestamp":"2026-04-08 09:42:42"}
+{"level":"info","message":"Connecting to RabbitMQ...","service":"api-monitoring","timestamp":"2026-04-08 09:42:42"}
+{"level":"info","message":"RabbitMQ connected. Queue: api_hits","service":"api-monitoring","timestamp":"2026-04-08 09:42:42"}
+{"level":"info","message":"All connections established successfully","service":"api-monitoring","timestamp":"2026-04-08 09:42:42"}
+{"level":"info","message":"Server started on port 5000","service":"api-monitoring","timestamp":"2026-04-08 09:42:42"}
+{"level":"info","message":"Environment: production","service":"api-monitoring","timestamp":"2026-04-08 09:42:42"}
+{"level":"info","message":"API available at: http://localhost:5000","service":"api-monitoring","timestamp":"2026-04-08 09:42:42"}
+{"level":"info","message":"Initializing database connections...","service":"api-monitoring","timestamp":"2026-04-08 15:27:49"}
+{"level":"info","message":"MongoDB connected: localhost","service":"api-monitoring","timestamp":"2026-04-08 15:27:49"}
+{"level":"info","message":"PostgreSQL pool created","service":"api-monitoring","timestamp":"2026-04-08 15:27:49"}
+{"level":"info","message":"PG connected successfully at Wed Apr 08 2026 15:27:49 GMT+0545 (Nepal Time)","service":"api-monitoring","timestamp":"2026-04-08 15:27:49"}
+{"level":"info","message":"Connecting to RabbitMQ...","service":"api-monitoring","timestamp":"2026-04-08 15:27:49"}
+{"error":"getaddrinfo EAI_AGAIN rabbitmq","level":"error","message":"RabbitMQ connection failed","service":"api-monitoring","timestamp":"2026-04-08 15:27:49"}
+{"level":"warn","message":"MongoDB disconnected","service":"api-monitoring","timestamp":"2026-04-08 11:24:30"}
+{"level":"info","message":"SIGTERM received, shutting down gracefully...","service":"api-monitoring","timestamp":"2026-04-08 11:24:30"}
+{"level":"info","message":"HTTP server closed","service":"api-monitoring","timestamp":"2026-04-08 11:24:30"}
+{"level":"info","message":"MongoDB disconnected successfully","service":"api-monitoring","timestamp":"2026-04-08 11:24:30"}
+{"level":"info","message":"PostgreSQL pool closed","service":"api-monitoring","timestamp":"2026-04-08 11:24:30"}
+{"level":"warn","message":"RabbitMQ connection closed","service":"api-monitoring","timestamp":"2026-04-08 11:24:30"}
+{"level":"info","message":"Initializing database connections...","service":"api-monitoring","timestamp":"2026-04-09 06:42:54"}
+{"level":"info","message":"MongoDB connected: mongo","service":"api-monitoring","timestamp":"2026-04-09 06:42:54"}
+{"level":"info","message":"PostgreSQL pool created","service":"api-monitoring","timestamp":"2026-04-09 06:42:54"}
+{"level":"info","message":"PG connected successfully at Thu Apr 09 2026 06:42:54 GMT+0000 (Coordinated Universal Time)","service":"api-monitoring","timestamp":"2026-04-09 06:42:54"}
+{"level":"info","message":"Connecting to RabbitMQ...","service":"api-monitoring","timestamp":"2026-04-09 06:42:54"}
+{"level":"info","message":"RabbitMQ connected. Queue: api_hits","service":"api-monitoring","timestamp":"2026-04-09 06:42:55"}
+{"level":"info","message":"All connections established successfully","service":"api-monitoring","timestamp":"2026-04-09 06:42:55"}
+{"level":"info","message":"Server started on port 5000","service":"api-monitoring","timestamp":"2026-04-09 06:42:55"}
+{"level":"info","message":"Environment: production","service":"api-monitoring","timestamp":"2026-04-09 06:42:55"}
+{"level":"info","message":"API available at: http://localhost:5000","service":"api-monitoring","timestamp":"2026-04-09 06:42:55"}
+{"level":"info","message":"SIGTERM received, shutting down gracefully...","service":"api-monitoring","timestamp":"2026-04-09 08:25:00"}
+{"level":"info","message":"HTTP server closed","service":"api-monitoring","timestamp":"2026-04-09 08:25:00"}
+{"level":"warn","message":"MongoDB disconnected","service":"api-monitoring","timestamp":"2026-04-09 08:25:00"}
+{"level":"info","message":"MongoDB disconnected successfully","service":"api-monitoring","timestamp":"2026-04-09 08:25:00"}
+{"level":"info","message":"PostgreSQL pool closed","service":"api-monitoring","timestamp":"2026-04-09 08:25:00"}
+{"level":"warn","message":"RabbitMQ connection closed","service":"api-monitoring","timestamp":"2026-04-09 08:25:00"}

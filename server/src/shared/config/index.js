@@ -33,7 +33,9 @@ const config = {
   // Todo JWT
 
   jwt: {
-    secret: process.env.JWT_SECRET || "6817864768d8b7a2aaad6e23678834d349136e39bb903761eca10e22c1899eff",
+    secret:
+      process.env.JWT_SECRET ||
+      "6817864768d8b7a2aaad6e23678834d349136e39bb903761eca10e22c1899eff",
     expiresIn: process.env.JWT_EXPIRES_IN || "24h",
   },
 
@@ -41,6 +43,14 @@ const config = {
   rateLimit: {
     windowMs: parseInt(process.env.RATE_LIMIT_WINDOWS_MS || "900000", 10),
     maxRequest: parseInt(process.env.RATE_LIMIT_MAX_REQUEST || "1000", 20),
+  },
+
+  // Todo COOKIES
+
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    expiresIn: 24 * 60 * 60 * 1000,
   },
 };
 
