@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors"; 
 import helmet from "helmet";
+import cookieParser from "cookie-parser"
 
 import logger from "./shared/config/logger.js";
 import mongodb from "./shared/config/mongodb.js";
@@ -8,39 +9,34 @@ import postgres from "./shared/config/postgres.js";
 import rabbitmq from "./shared/config/rabbitmq.js";
 import config from "./shared/config/index.js";
 
-import errorHandler from "./shared/middleware/errorHandler.js";
+import errorHandler from "./shared/middlewares/errorHandler.js";
 import ResponseFormatter from "./shared/utils/responseFormatter.js";
+import authRouter from "./services/auth/routes/authRoutes.js";
 
 const app = express();
 
 app.use(helmet());
-app.use(cors());
+app.use(cors(
+  {
+    origin: true,
+    credentials: true
+  }
+));
+app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 
-/**
- * Health check route
- * @route GET /
- * @returns {Object} 200 - { ok: true }
- */
+ 
 app.get("/", (_req, res) => {
   res.status(200).json({ ok: true });
 });
 
-// Global error handler
+app.use("/api/v1/auth", authRouter)
+
+
 app.use(errorHandler);
 
-/**
- * Initializes all external service connections.
- * Connects to:
- * - MongoDB
- * - PostgreSQL
- * - RabbitMQ
- *
- * @async
- * @function initializeConnection
- * @throws Will throw an error if any connection fails
- */
+ 
 async function initializeConnection() {
   try {
     logger.info("Initializing database connections...");
@@ -56,13 +52,7 @@ async function initializeConnection() {
   }
 }
 
-/**
- * Starts the Express server after initializing all connections.
- * Also handles graceful shutdown on system signals and unexpected errors.
- *
- * @async
- * @function startServer
- */
+ 
 async function startServer() {
   let isShuttingDown = false;
 
@@ -75,11 +65,7 @@ async function startServer() {
       logger.info(`API available at: http://localhost:${config.port}`);
     });
 
-    /**
-     * Gracefully shuts down the server and closes all connections.
-     *
-     * @param {string} signal - The signal or event triggering shutdown
-     */
+  
     const gracefulShutdown = async (signal) => {
       if (isShuttingDown) return;
       isShuttingDown = true;

@@ -1,5 +1,5 @@
 import config from "../../../shared/config/index.js";
-import { APPLICATION_ROLES } from "../../../shared/constants/roles.js";
+import { APPLICATION_ROLES } from "../../../shared/constant/role.js";
 import ResponseFormatter from "../../../shared/utils/responseFormatter.js";
 
 export class AuthController {

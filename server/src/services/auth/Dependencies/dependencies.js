@@ -1,11 +1,11 @@
 import { AuthController } from "../controller/authController.js";
-import { AuthService } from "../service/authService.js";
 import MongoUserRepository from "../repository/UserRepository.js";
+import { AuthService } from "../service/authServices.js";
 
 class Container {
   static init() {
     const repositories = {
-      userRepository: MongoUserRepository,
+      userRepository: new MongoUserRepository(),  
     };
 
     const services = {
@@ -25,5 +25,6 @@ class Container {
 }
 
 const initialized = Container.init();
+
 export { Container };
 export default initialized;

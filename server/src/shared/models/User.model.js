@@ -33,23 +33,28 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minlength: 6,
+      minlength: 8,
       validate: {
         validator: function (password) {
           if (
-            this.isModified("password") &&
             password &&
-            !password.startsWith("$2a$")
+            (password.startsWith("$2a$") || password.startsWith("$2b$"))
           ) {
+            return true;
+          }
+          if (password) {
             const validation = SecurityUtils.validatePassword(password);
             return validation.success;
           }
           return true;
         },
         message: function (props) {
-          if (props.value && !props.value.startsWith("$2a$")) {
+          if (
+            props.value &&
+            !props.value.startsWith("$2a$") &&
+            !props.value.startsWith("$2b$")
+          ) {
             const validation = SecurityUtils.validatePassword(props.value);
-
             return validation.errors.join(". ");
           }
           return "Password validation failed";
@@ -62,7 +67,7 @@ const userSchema = new mongoose.Schema(
       default: "client_viewer",
     },
     clientId: {
-      type: mongoose.Schema.Types.ObjectId, // 123
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Client",
       required: function () {
         return this.role !== "super_admin";
@@ -97,18 +102,17 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function () {
   if (!this.isModified("password")) {
-    return next();
+    return;
   }
 
-  try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (error) {
-    next(error);
+  if (this.password.startsWith("$2a$") || this.password.startsWith("$2b$")) {
+    return;
   }
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 userSchema.index({ clientId: 1, isActive: 1 });
